@@ -1,7 +1,7 @@
 #include "kinematic_body.h"
 
-KinematicBody::KinematicBody(const QRectF& rect_area, Scene* scene) :
-	CollideObject(rect_area, scene)	
+KinematicBody::KinematicBody(Scene* scene) :
+	CollideObject(scene)	
 {}
 
 void KinematicBody::SetVelocity(qreal x, qreal y) {
@@ -10,14 +10,26 @@ void KinematicBody::SetVelocity(qreal x, qreal y) {
 }
 
 void KinematicBody::SetVelocity(const QVector2D& velocity) {
-	velocity_ = veclocity;
+	velocity_ = velocity;
 }
 
 bool KinematicBody::IsOnFloor() const {
-	for (CollideObject* collider : collided) {
-		if (collider->IsFloor()) {
-			return true;
+	bool with_collider = false;
+	bool with_floor = false;
+
+	for (Area* collider : GetAreasViaGroupName("Collider")) {
+		for (int i = 0; i < collider->IntersectsSize(); i++) {
+			if (collider[i].GetName() == "Floor") {
+				with_floor = true;
+			} else if (collider[i].GetName() == "Collider") {
+				with_collider = true;
+			}
 		}
 	}
+
+	if (with_collider && with_floor) {
+		return true;
+	}
+	return false;
 }
 

@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QWidget>
-#include <QVector>
+#include <QMap>
 #include <QPainter>
 
 #include "game_object.h"
@@ -16,17 +16,19 @@
 class Scene : public QObject {
 	Q_OBJECT
 private:
-	QVector<GameObject*> objects;
+	/* Every object has own string id. This is need to 
+	 * send messages between objects */
+	QMap<QString, GameObject*> objects;
 public:
 	Scene(QObject* parent = nullptr);
 	~Scene();
 
 	void Draw(QPainter* painter) const;
 	void Update();
+	void SendTo(const QString& name, Message* message);
 
-	/* Fill area_obj's areas by obly those which intersects */
+	/* Fill area_obj's areas by only those which intersects */
 	void GetIntersected(AreaObject* area);
-	
 };
 
 #endif

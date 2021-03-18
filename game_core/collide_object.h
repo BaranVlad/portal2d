@@ -10,8 +10,6 @@ public:
 	CollideObject(Scene* scene);
 
 	virtual void Update();
-
-	bool IsOnFloor() const;
 };
 
 #endif

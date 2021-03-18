@@ -2,45 +2,52 @@
 #include "scene.h"
 
 AreaObject::AreaObject(Scene* scene) :
-	View(scene),
+	View(scene)
 {}
 
 void AreaObject::Update() {
-	scene->GetIntersected(this);
+	scene_->GetIntersected(this);
 }
 
-void AreaObject::AddArea(const QString& name, const QRectF rect_area) {
-	Area* area = new Area(rect_area, this);
-	areas_[name] = area;
-}
-
-Area* AreaObject::GetArea(const QString& name) const {
-	return areas_[name];
-}
-
-virtual AreaObject::~AreaObject() {
-	for (auto& elem : areas_) {
-		delete elem.value();
+AreaObject::~AreaObject() {
+	for (Area* elem : GetAreas()) {
+		delete elem;
 	}
-}
-
-bool AreaObject::IsAreaActive(const QString& area_name) const {
-	return areas_[area_name]->IsActive();
-}
-
-void AreaObject::SetAreaActive(const QString& area_name, bool value) {
-	map[area_name]->SetActive(value);
-}
-
-QMap::iterator AreaObject::AreasBegin() {
-	return areas_.begin();	
-}
-
-QMap::iterator AreaObject::AreasEnd() {
-	return areas_.end();
 }
 
 QPointF AreaObject::GetPosition() const {
 	return position_;
 }
+
+bool AreaObject::IsGroupExist(const QString& name) const {
+	return areas_.contains(name);
+}
+
+void AreaObject::AddGroup(const QString& name) {
+	areas_[name];
+}
+
+QList<Area*> AreaObject::GetAreas() const {
+	QList<Area*> result_list;
+	for (auto& vec : areas_.values()) {
+		for (Area* area : vec) {
+			result_list.push_back(area);
+		}
+	}
+	return result_list;
+}
+
+QList<QString> AreaObject::GetGroups() const {
+	return areas_.keys();
+}
+
+QVector<Area*>& AreaObject::GetAreasViaGroupName(const QString& name) const {
+	return areas_[name];
+}
+
+void AreaObject::AddAreaToGroup(const QString& name, Area* area) {
+	areas_[name].push_back(area);
+}
+
+
 

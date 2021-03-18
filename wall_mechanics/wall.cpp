@@ -1,12 +1,38 @@
 #include "wall.h"
 
-Wall::Wall(const QRectF& rect_area, Scene* scene) :
-	CollideObject(rect_area, scene)
+Wall::Wall(Scene* scene, const QVector2D& normal_vector) :
+	CollideObject(scene),
+	normal_vector_(normal_vector)
 {}
 
-virtual void Wall::Update() {
+void Wall::Update() {
 	CollideObject::Update();
 }
 
+bool Wall::IsActive() const {
+	return is_active_;
+}
 
+void Wall::SetActive(bool value) {
+	is_active_ = value;
+	for (Area* area : GetAreas()) {
+		area->SetActive(value);
+	}
+}
+
+void Wall::Draw(QPainter* painter) const {
+	if (is_active_)	{
+		DrawActive(painter);
+	} else {
+		DrawInactive(painter);
+	}
+}
+
+void Wall::ChangeState() {
+	if (is_active_) {
+		SetActive(false);
+	} else {
+		SetActive(true);
+	}
+}
 

@@ -2,17 +2,28 @@
 #define PORTAL2D_WALL_H_
 
 #include "../game_core/collide_object.h"
+#include <QVector2D>
 
 /* Abstract class for all walls (include ground) */
 class Wall : public CollideObject {
-private:
-	bool is_floor;
+protected:
+	QVector2D normal_vector_;
+	bool is_active_;
 public:
 	Wall() = delete;
-	Wall(const QRectF& rect_area, Scene* scene);
+	Wall(Scene* scene,
+		   	const QVector2D& normal_vector);
 
 	virtual void Update();
-}
+	virtual void Draw(QPainter* painter) const;
+
+	bool IsActive() const;
+	void SetActive(bool value);
+	void ChangeState();
+
+	virtual void DrawActive(QPainter* painter) const = 0;
+	virtual void DrawInactive(QPainter* painter) const = 0;
+};
 
 #endif
 

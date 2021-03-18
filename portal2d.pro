@@ -23,11 +23,33 @@ SOURCES += 	main.cpp \
 			game_core/game_object.cpp \
 			game_core/view.cpp \
 			game_core/scene.cpp \
-			game_core/area_object.cpp 
+			game_core/area_object.cpp \
+			game_core/area.cpp \
+			game_core/collide_object.cpp \
+			game_core/message.cpp \
+			game_core/kinematic_body.cpp \
+			\
+			wall_mechanics/straight_wall.cpp \
+			wall_mechanics/wall.cpp \
+			wall_mechanics/wall_map.cpp \
+			\
+			messages/wall_map_message.cpp \
+
 
 
 HEADERS +=	game_core/game_object.h \
 			game_core/view.h \
 			game_core/scene.h \
-			game_core/area_object.h 
+			game_core/area_object.h \
+			game_core/area.h \
+			game_core/collide_object.h \	
+			game_core/message.h \
+			game_core/kinematic_body.h \
+			\
+			wall_mechanics/straight_wall.h \
+			wall_mechanics/wall.h \
+			wall_mechanics/wall_map.h \
+			\
+			messages/wall_map_message.h \
+
 

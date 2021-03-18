@@ -3,6 +3,7 @@
 
 #include <QPainter>
 #include <QPointF>
+#include <QtGlobal>
 
 #include "game_object.h"
 
@@ -18,6 +19,9 @@ protected:
 public:
 	View() = delete;
 	View(Scene* scene);
+
+	void SetPosition(const QPointF& position);
+	void SetPosition(qreal x, qreal y);
 
 	virtual void Draw(QPainter* painter) const = 0;
 	virtual ~View() = default;

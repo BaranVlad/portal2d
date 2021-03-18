@@ -30,6 +30,7 @@ public:
 	void SetRect(const QRectF& rect_area);
 	
 	AreaObject* GetAreaObject() const;
+	const QString& GetName() const;
 
 	bool IsIntersects(const Area& area) const;
 

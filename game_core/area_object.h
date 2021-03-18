@@ -4,6 +4,7 @@
 #include <QRectF>
 #include <QMap>
 #include <QString>
+#include <QVector>
 
 #include "view.h"
 #include "area.h"
@@ -14,7 +15,8 @@ class Scene;
  * and get signal when areas contact */
 class AreaObject : public View {
 private:
-	QMap<QString, Area*> areas_;
+	/* AreaObject provide groups of areas that united by string id */
+	mutable QMap<QString, QVector<Area*>> areas_;
 public:
 	AreaObject() = delete;
 	AreaObject(Scene* scene);
@@ -22,15 +24,15 @@ public:
 
 	virtual void Update();
 
-	void AddArea(const QString& name, const QRectF rect_area);	
-	Area* GetArea(const QString& name) const;
+	bool IsGroupExist(const QString& name) const;
+	void AddGroup(const QString& name);
+	void AddAreaToGroup(const QString& name, Area* area);
 	
-	QMap::iterator AreasBegin();
-	QMap::iterator AreasEnd();
+	QVector<Area*>& GetAreasViaGroupName(const QString& name) const;
 
-	bool IsAreaActive(const QString& area_name) const;
-	void SetAreaActive(const QString& area_name, bool value);
-
+	QList<Area*> GetAreas() const;
+	QList<QString> GetGroups() const;
+	
 	QPointF GetPosition() const;
 };
 

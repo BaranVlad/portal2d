@@ -9,10 +9,10 @@
 /* Abstract class that can move and collide */
 class KinematicBody : public CollideObject {
 protected:
-	QVector2D velocity_(0, 0);	
+	QVector2D velocity_;	
 public:
 	KinematicBody() = delete;	
-	KinematicBody(const QRectF& rect_area, Scene* scene);
+	KinematicBody(Scene* scene);
 
 	void SetVelocity(qreal x, qreal y);
 	void SetVelocity(const QVector2D& velocity);
