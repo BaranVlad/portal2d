@@ -2,12 +2,12 @@
 
 Wall::Wall(Scene* scene, const QVector2D& normal_vector) :
 	CollideObject(scene),
-	normal_vector_(normal_vector)
+	normal_vector_(normal_vector),
+	is_active_(true)
 {}
 
-void Wall::Update() {
-	CollideObject::Update();
-}
+void Wall::Update() 
+{}
 
 bool Wall::IsActive() const {
 	return is_active_;

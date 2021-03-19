@@ -5,13 +5,13 @@
 #include <QVector>
 
 class AreaObject;
+enum class Direction;
 
 /* This class are used by AreaObject to manage intersections */
 class Area {
 private:
 	AreaObject* area_object_;
 	QRectF rect_area_;	
-	QVector<Area*> intersects_with_;
 	
 	QString name_;
 	bool is_active_;
@@ -19,10 +19,6 @@ public:
 	Area() = delete;
 	Area(const QString& name,
 		   	const QRectF& rect_area, AreaObject* area_object);
-
-	void ClearIntersects();
-	void AddIntersect(Area* area);
-	int IntersectsSize() const;
 
 	bool IsActive() const;
 	void SetActive(bool value);
@@ -33,8 +29,10 @@ public:
 	const QString& GetName() const;
 
 	bool IsIntersects(const Area& area) const;
+	Direction IsIntersectsMovable(const Area& area_old,
+		   							const Area& area_new) const;
 
-	Area* operator[](int index);
+	QRectF GetGlobalRect() const;
 };
 
 #endif

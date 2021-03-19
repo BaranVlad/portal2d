@@ -8,8 +8,6 @@ class CollideObject : public AreaObject {
 public:
 	CollideObject() = delete;
 	CollideObject(Scene* scene);
-
-	virtual void Update();
 };
 
 #endif

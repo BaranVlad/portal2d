@@ -5,18 +5,10 @@ AreaObject::AreaObject(Scene* scene) :
 	View(scene)
 {}
 
-void AreaObject::Update() {
-	scene_->GetIntersected(this);
-}
-
 AreaObject::~AreaObject() {
 	for (Area* elem : GetAreas()) {
 		delete elem;
 	}
-}
-
-QPointF AreaObject::GetPosition() const {
-	return position_;
 }
 
 bool AreaObject::IsGroupExist(const QString& name) const {

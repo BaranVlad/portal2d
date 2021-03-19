@@ -19,7 +19,7 @@ QVector2D NormVectorFromDirection(Direction dir) {
 StraightWall::StraightWall(Scene* scene, Direction dir, qreal len) :
 	Wall(scene, NormVectorFromDirection(dir)),
 	direction_(dir),
-	end_point_(QPointF(position_.x() + len, position_.y() + len))
+	len_(len)
 {}
 
 void StraightWall::DrawActive(QPainter* painter) const {
@@ -28,7 +28,8 @@ void StraightWall::DrawActive(QPainter* painter) const {
 	pen.setColor(Qt::black);
 	painter->setPen(pen);
 
-	painter->drawLine(position_, end_point_);
+	painter->drawLine(GameObject::VectorToPoint(position_),
+		   				GameObject::VectorToPoint(end_point_));
 }
 
 void StraightWall::DrawInactive(QPainter* painter) const {
@@ -38,6 +39,28 @@ void StraightWall::DrawInactive(QPainter* painter) const {
 	pen.setStyle(Qt::DashLine);
 	painter->setPen(pen);
 
-	painter->drawLine(position_, end_point_);
+	painter->drawLine(GameObject::VectorToPoint(position_),
+		   				GameObject::VectorToPoint(end_point_));
 }
 
+void StraightWall::TakeMessage(Message* message) {}
+
+void StraightWall::UpdateEndPoint() {
+	if (direction_ == Direction::Up || direction_ == Direction::Down) {
+		end_point_.setX(position_.x() + len_);
+		end_point_.setY(position_.y());
+	} else {
+		end_point_.setX(position_.x());
+		end_point_.setY(position_.y() + len_);
+	}
+}
+
+void StraightWall::SetPosition(qreal x, qreal y) {
+	View::SetPosition(x, y);	
+	UpdateEndPoint();
+}
+
+void StraightWall::SetPosition(const QVector2D& position) {
+	View::SetPosition(position);	
+	UpdateEndPoint();
+}

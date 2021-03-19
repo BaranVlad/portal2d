@@ -14,11 +14,15 @@ public:
 	WallMap(Scene* scene);
 	virtual ~WallMap();
 
+	virtual void Update();
+	virtual void Draw(QPainter* painter) const;
+
 	void AddWall(Wall* wall);
 	void AddWallGroup(const QString& name);
 	void AddWallToGroup(const QString& name, Wall* wall);
+	bool IsGroupExist(const QString& name);
 
-	QList<Walls*> GetWalls() const;
+	QList<Wall*> GetWalls() const;
 
 	void SwitchGroup(const QString& name);
 

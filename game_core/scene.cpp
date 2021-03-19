@@ -25,25 +25,31 @@ void Scene::Update() {
 	}
 }
 
-void Scene::GetIntersected(AreaObject* area_object) {
-	for (Area* main_area : area_object->GetAreas()) {
-		if (!main_area->IsActive()) {
+QList<Area*> Scene::GetIntersected(Area* area) {
+	QList<Area*> result;
+	for (GameObject* object : objects.values()) {
+		AreaObject* area_object = dynamic_cast<AreaObject*>(object);	
+		if (!area_object) {
 			continue;
 		}
-		main_area->ClearIntersects();
-		for (GameObject* object : objects) {
-			AreaObject* area_object_diff = dynamic_cast<AreaObject*>(object);
-			for (Area* not_main_area : area_object_diff->GetAreas()) { 
-				if (main_area->IsIntersects(*not_main_area)) {
-					main_area->AddIntersect(not_main_area);
-				}
+		for (Area* game_area : area_object->GetAreas()) {
+			if (game_area->IsIntersects(*area)) {
+				result.push_back(game_area);
 			}
-		}
+		}	
 	}
+	return result;
 }
 
 void Scene::SendTo(const QString& name, Message* message) {
 	objects[name]->TakeMessage(message);
 }
 
+void Scene::AddGameObject(const QString& name, GameObject* game_object) {
+	if (objects.contains(name)) {
+		qDebug() << "Scene::AddGameObject(...) error: object with name " 
+				<< name << " already exist";
+	}
+	objects[name] = game_object;	
+}
 

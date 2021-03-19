@@ -7,6 +7,10 @@ TARGET = portal2d
 INCLUDEPATH += .
 QT += core widgets gui
 
+CONFIG += debug
+
+QMAKE_CXXFLAGS += -O0 -g -ggdb
+
 # The following define makes your compiler warn you if you use any
 # feature of Qt which has been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -26,7 +30,7 @@ SOURCES += 	main.cpp \
 			game_core/area_object.cpp \
 			game_core/area.cpp \
 			game_core/collide_object.cpp \
-			game_core/message.cpp \
+			game_core/common_message.cpp \
 			game_core/kinematic_body.cpp \
 			\
 			wall_mechanics/straight_wall.cpp \
@@ -34,6 +38,11 @@ SOURCES += 	main.cpp \
 			wall_mechanics/wall_map.cpp \
 			\
 			messages/wall_map_message.cpp \
+			messages/wall_map_add_message.cpp \
+			messages/wall_map_add_to_group_message.cpp \
+			\
+			game_widget/game_widget.cpp \
+
 
 
 
@@ -43,7 +52,7 @@ HEADERS +=	game_core/game_object.h \
 			game_core/area_object.h \
 			game_core/area.h \
 			game_core/collide_object.h \	
-			game_core/message.h \
+			game_core/common_message.h \
 			game_core/kinematic_body.h \
 			\
 			wall_mechanics/straight_wall.h \
@@ -51,5 +60,8 @@ HEADERS +=	game_core/game_object.h \
 			wall_mechanics/wall_map.h \
 			\
 			messages/wall_map_message.h \
-
+			messages/wall_map_add_message.h \
+			messages/wall_map_add_to_group_message.h \
+			\
+			game_widget/game_widget.h \
 

@@ -5,6 +5,7 @@
 #include <QMap>
 #include <QString>
 #include <QVector>
+#include <QVector2D>
 
 #include "view.h"
 #include "area.h"
@@ -22,18 +23,16 @@ public:
 	AreaObject(Scene* scene);
 	virtual ~AreaObject();
 
-	virtual void Update();
-
 	bool IsGroupExist(const QString& name) const;
 	void AddGroup(const QString& name);
 	void AddAreaToGroup(const QString& name, Area* area);
+
 	
 	QVector<Area*>& GetAreasViaGroupName(const QString& name) const;
 
 	QList<Area*> GetAreas() const;
 	QList<QString> GetGroups() const;
 	
-	QPointF GetPosition() const;
 };
 
 #endif

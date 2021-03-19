@@ -4,24 +4,36 @@
 #include <QDebug>
 
 #include "../game_core/area.h"
-#include "../game_core/message.h"
 #include "../messages/wall_map_message.h"
+#include "../messages/wall_map_add_message.h"
+#include "../messages/wall_map_add_to_group_message.h"
 
 WallMap::WallMap(Scene* scene) :
 	CollideObject(scene)
 {
-	position_ = QPointF(0, 0);
+	position_ = QVector2D(0, 0);
 	AddGroup("Common");
 }
 
 void WallMap::TakeMessage(Message* msg) {
 	WallMapMessage* wall_msg = dynamic_cast<WallMapMessage*>(msg);
-	if (!wall_msg) {
-		qDebug() << "WallMap::TakeMessage(...) error: bad type of message";
-	}
+	WallMapAddMessage* wall_add_msg = 
+							dynamic_cast<WallMapAddMessage*>(msg);
+	WallMapAddToGroupMessage* add_to_group_msg = 
+					dynamic_cast<WallMapAddToGroupMessage*>(msg);
 
-	SwitchGroup(wall_msg->GetGroupName());
-	
+	if (wall_msg) {
+		SwitchGroup(wall_msg->GetGroupName());
+	} else if (wall_add_msg) {
+		AddWall(wall_add_msg->GetWall());
+	} else if (add_to_group_msg) {
+		QString group_name = add_to_group_msg->GetGroupName();
+		if (!IsGroupExist(group_name)) {
+			AddGroup(group_name);	
+		}
+		AddWallToGroup(group_name, add_to_group_msg->GetWall());
+	}
+	delete msg;
 }
 
 void WallMap::AddWallToGroup(const QString& name, Wall* wall) {
@@ -34,8 +46,14 @@ void WallMap::AddWallToGroup(const QString& name, Wall* wall) {
 	}
 }
 
-QList<Walls*> WallMap::GetWalls() const {
-			
+QList<Wall*> WallMap::GetWalls() const {
+	QList<Wall*> result;
+	for (auto& vec : groups_.values()) {
+		for (Wall* wall : vec) {
+			result.push_back(wall);
+		}	
+	}
+	return result;
 }
 
 void WallMap::AddWall(Wall* wall) {
@@ -47,8 +65,10 @@ void WallMap::AddWallGroup(const QString& name) {
 }
 
 WallMap::~WallMap() {
-	for (Wall* wall : groups_.values()) {
-		delete wall;
+	for (auto& vec : groups_.values()) {
+		for (Wall* wall : vec) {
+			delete wall;
+		}
 	}
 }
 
@@ -56,5 +76,21 @@ void WallMap::SwitchGroup(const QString& name) {
 	for (Wall* wall : groups_[name]) {
 		wall->ChangeState();
 	}	
+}
+
+bool WallMap::IsGroupExist(const QString& name) {
+	return groups_.contains(name);
+}
+
+void WallMap::Update() {
+	for (Wall* wall : GetWalls()) {
+		wall->Update();	
+	}
+}
+
+void WallMap::Draw(QPainter* painter) const {
+	for (Wall* wall : GetWalls()) {
+		wall->Draw(painter);
+	}
 }
 

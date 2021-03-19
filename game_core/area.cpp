@@ -10,28 +10,12 @@ Area::Area(const QString& name,
 	name_(name)
 {}
 
-void Area::ClearIntersects() {
-	intersects_with_.clear();
-}
-
-void Area::AddIntersect(Area* area) {
-	intersects_with_.push_back(area);
-}
-
 bool Area::IsActive() const {
 	return is_active_;
 }
 
 void Area::SetActive(bool value) {
 	is_active_ = value;
-}
-
-Area* Area::operator[](int index) {
-	return intersects_with_[index];
-}
-
-int Area::IntersectsSize() const {
-	return intersects_with_.size();	
 }
 
 bool Area::IsIntersects(const Area& area) const {
@@ -42,13 +26,8 @@ bool Area::IsIntersects(const Area& area) const {
 		return false;
 	}
 
-	QRectF global_rect1 = rect_area_;
-	global_rect1.moveTo(rect_area_.topLeft() + 
-			area_object_->GetPosition());
-
-	QRectF global_rect2 = area.rect_area_;
-	global_rect2.moveTo(area.rect_area_.topLeft() +
-		   	area.area_object_->GetPosition());
+	QRectF global_rect1 = GetGlobalRect();
+	QRectF global_rect2 = area.GetGlobalRect();
 
 	return global_rect1.intersects(global_rect2);
 }
@@ -65,3 +44,15 @@ const QString& Area::GetName() const {
 	return name_;
 }
 
+Direction Area::IsIntersectsMovable(const Area& area_old,
+		   							const Area& area_new) const
+{}
+
+QRectF Area::GetGlobalRect() const {
+	QRectF global_rect = rect_area_;
+	QVector2D position = area_object_->GetPosition();
+	QPointF move_position(position.x(), position.y());
+	global_rect.moveTo(rect_area_.topLeft() + move_position);
+
+	return global_rect;
+}

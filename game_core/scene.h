@@ -5,11 +5,14 @@
 #include <QWidget>
 #include <QMap>
 #include <QPainter>
+#include <QDebug>
 
 #include "game_object.h"
 #include "area_object.h"
 #include "view.h"
 #include "area.h"
+
+#include <QList>
 
 /* This class contains all objects in game,
  * and provide their updating and drawing */
@@ -26,9 +29,11 @@ public:
 	void Draw(QPainter* painter) const;
 	void Update();
 	void SendTo(const QString& name, Message* message);
+	void AddGameObject(const QString& name, GameObject* game_object);
 
 	/* Fill area_obj's areas by only those which intersects */
-	void GetIntersected(AreaObject* area);
+	QList<Area*> GetIntersected(Area* area);
+	
 };
 
 #endif

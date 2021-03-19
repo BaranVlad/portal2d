@@ -1,22 +1,29 @@
 #ifndef STRAIGHT_WALL_H_
 #define STRAIGHT_WALL_H_
 
-enum class Direction { Up, Down, Left, Right };
+#include <QtGlobal>
+#include <QVector2D>
 
 #include "wall.h"
-#include <QtGlobal>
-#include <QPointF>
+#include "../game_core/common_message.h"
    
 class StraightWall : public Wall {
 private:
 	Direction direction_;
-	QPointF end_point_;
+	qreal len_;
+	QVector2D end_point_;
+
+	void UpdateEndPoint();
 public:
 	StraightWall() = delete;
 	StraightWall(Scene* scene, Direction dir, qreal len);
 
 	virtual void DrawActive(QPainter* painter) const;
 	virtual void DrawInactive(QPainter* painter) const;
+	virtual void TakeMessage(Message* message);
+
+	virtual void SetPosition(qreal x, qreal y);
+	virtual void SetPosition(const QVector2D& position);
 
 };
 
