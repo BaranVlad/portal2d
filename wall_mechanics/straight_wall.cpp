@@ -20,11 +20,18 @@ StraightWall::StraightWall(Scene* scene, Direction dir, qreal len) :
 	Wall(scene, NormVectorFromDirection(dir)),
 	direction_(dir),
 	len_(len)
-{}
+{
+	QRectF collide_rect;
+	if (dir == Direction::Down) {
+		collide_rect = QRectF(0, 0, len, 5);	
+	}
+	AddAreaToGroup("Collider", new Area("Collider", collide_rect, this));
+
+}
 
 void StraightWall::DrawActive(QPainter* painter) const {
 	QPen pen = painter->pen();
-	pen.setWidth(3);
+	pen.setWidth(8);
 	pen.setColor(Qt::black);
 	painter->setPen(pen);
 
@@ -34,7 +41,7 @@ void StraightWall::DrawActive(QPainter* painter) const {
 
 void StraightWall::DrawInactive(QPainter* painter) const {
 	QPen pen = painter->pen();
-	pen.setWidth(3);
+	pen.setWidth(8);
 	pen.setColor(QColor(0, 0, 0, 100));	
 	pen.setStyle(Qt::DashLine);
 	painter->setPen(pen);

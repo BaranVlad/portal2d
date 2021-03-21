@@ -22,6 +22,7 @@ public:
 
 	virtual void SetPosition(const QVector2D& position);
 	virtual void SetPosition(qreal x, qreal y);
+	void Move(const QVector2D& offset);
 	QVector2D GetPosition() const;
 
 	virtual void Draw(QPainter* painter) const = 0;

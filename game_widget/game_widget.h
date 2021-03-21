@@ -3,17 +3,22 @@
 
 #include <QWidget>
 #include <QTimer>
+#include <QElapsedTimer>
+#include <QKeyEvent>
 
 #include "../game_core/scene.h"
 
-#define FPS 2
+#define FPS 30
 
 class GameWidget : public QWidget {
 	Q_OBJECT
 protected:
 	Scene* scene_;
-	void Update();
+	QElapsedTimer clock_;
 
+	void Update();
+	void keyPressEvent(QKeyEvent*);
+	void keyReleaseEvent(QKeyEvent*);
 	void paintEvent(QPaintEvent*);
 public:
 	GameWidget(QWidget* parent = nullptr);

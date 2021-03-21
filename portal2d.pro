@@ -42,9 +42,8 @@ SOURCES += 	main.cpp \
 			messages/wall_map_add_to_group_message.cpp \
 			\
 			game_widget/game_widget.cpp \
-
-
-
+			\
+			game_objects/player.cpp \
 
 HEADERS +=	game_core/game_object.h \
 			game_core/view.h \
@@ -64,4 +63,6 @@ HEADERS +=	game_core/game_object.h \
 			messages/wall_map_add_to_group_message.h \
 			\
 			game_widget/game_widget.h \
+			\
+			game_objects/player.h \
 

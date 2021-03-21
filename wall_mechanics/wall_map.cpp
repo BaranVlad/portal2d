@@ -29,7 +29,7 @@ void WallMap::TakeMessage(Message* msg) {
 	} else if (add_to_group_msg) {
 		QString group_name = add_to_group_msg->GetGroupName();
 		if (!IsGroupExist(group_name)) {
-			AddGroup(group_name);	
+			AddWallGroup(group_name);	
 		}
 		AddWallToGroup(group_name, add_to_group_msg->GetWall());
 	}
@@ -82,9 +82,9 @@ bool WallMap::IsGroupExist(const QString& name) {
 	return groups_.contains(name);
 }
 
-void WallMap::Update() {
+void WallMap::Update(qreal delta_time) {
 	for (Wall* wall : GetWalls()) {
-		wall->Update();	
+		wall->Update(delta_time);	
 	}
 }
 

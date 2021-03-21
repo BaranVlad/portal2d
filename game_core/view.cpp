@@ -16,3 +16,7 @@ QVector2D View::GetPosition() const {
 	return position_;
 }
 
+void View::Move(const QVector2D& offset) {
+	position_ += offset;
+}
+

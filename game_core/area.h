@@ -2,7 +2,8 @@
 #define PROTAL2D_AREA_H_
 
 #include <QRectF>
-#include <QVector>
+#include <QVector2D>
+#include <QString>
 
 class AreaObject;
 enum class Direction;
@@ -24,13 +25,23 @@ public:
 	void SetActive(bool value);
 
 	void SetRect(const QRectF& rect_area);
+	void MoveRect(const QVector2D& vec);
 	
 	AreaObject* GetAreaObject() const;
 	const QString& GetName() const;
 
 	bool IsIntersects(const Area& area) const;
-	Direction IsIntersectsMovable(const Area& area_old,
-		   							const Area& area_new) const;
+
+
+
+	bool MovableIntersect(Area* move_area, const QVector2D& velocity,
+		   						QVector2D* offset, Direction& direction);
+	bool Sweeping(const QPointF& first, const QPointF& second,
+					const QPointF& center, const QVector2D& velocity,
+					const QLineF& first_side, Direction first_dir,
+				   	const QLineF second_side, Direction second_dir,
+					QVector2D* offset, Direction& direction);
+		
 
 	QRectF GetGlobalRect() const;
 };

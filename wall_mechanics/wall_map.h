@@ -14,7 +14,7 @@ public:
 	WallMap(Scene* scene);
 	virtual ~WallMap();
 
-	virtual void Update();
+	virtual void Update(qreal delta_time);
 	virtual void Draw(QPainter* painter) const;
 
 	void AddWall(Wall* wall);

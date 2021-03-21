@@ -19,7 +19,7 @@ public:
 
 	static QPointF VectorToPoint(const QVector2D& vec);
 
-	virtual void Update() = 0;
+	virtual void Update(qreal delta_time) = 0;
 
 	/* Message object delete hear */
 	virtual void TakeMessage(Message* msg) = 0;

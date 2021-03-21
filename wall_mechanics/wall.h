@@ -14,7 +14,7 @@ public:
 	Wall(Scene* scene,
 		   	const QVector2D& normal_vector);
 
-	virtual void Update();
+	virtual void Update(qreal delta_time);
 	virtual void Draw(QPainter* painter) const;
 
 	bool IsActive() const;

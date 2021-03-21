@@ -6,8 +6,7 @@ Wall::Wall(Scene* scene, const QVector2D& normal_vector) :
 	is_active_(true)
 {}
 
-void Wall::Update() 
-{}
+void Wall::Update(qreal delta_time) {}
 
 bool Wall::IsActive() const {
 	return is_active_;
