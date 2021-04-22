@@ -32,6 +32,8 @@ SOURCES += 	main.cpp \
 			game_core/collide_object.cpp \
 			game_core/common_message.cpp \
 			game_core/kinematic_body.cpp \
+			game_core/button.cpp \
+			game_core/camera.cpp \
 			\
 			wall_mechanics/straight_wall.cpp \
 			wall_mechanics/wall.cpp \
@@ -44,6 +46,17 @@ SOURCES += 	main.cpp \
 			game_widget/game_widget.cpp \
 			\
 			game_objects/player.cpp \
+			game_objects/floor_button.cpp \
+			game_objects/portal_bullet.cpp \
+			\
+			map_editor/map_editor.cpp \
+			map_editor/item_button.cpp \
+			map_editor/editor_strategy.cpp \
+			map_editor/editor_camera.cpp \
+			map_editor/editor_scene.cpp \
+			\
+			map_editor/strategies/player_strategy.cpp \
+			map_editor/strategies/walls_strategy.cpp \
 
 HEADERS +=	game_core/game_object.h \
 			game_core/view.h \
@@ -53,6 +66,8 @@ HEADERS +=	game_core/game_object.h \
 			game_core/collide_object.h \	
 			game_core/common_message.h \
 			game_core/kinematic_body.h \
+			game_core/button.h \
+			game_core/camera.h \
 			\
 			wall_mechanics/straight_wall.h \
 			wall_mechanics/wall.h \
@@ -65,4 +80,19 @@ HEADERS +=	game_core/game_object.h \
 			game_widget/game_widget.h \
 			\
 			game_objects/player.h \
+			game_objects/floor_button.h \
+			game_objects/portal_bullet.h \
+			\
+			map_editor/map_editor.h \
+			map_editor/item_button.h \
+			map_editor/editor_strategy.h \
+			map_editor/editor_camera.h \
+			map_editor/editor_scene.h \
+			\
+			map_editor/strategies/player_strategy.h \
+			map_editor/strategies/walls_strategy.h \
+
+
+RESOURCES = textures.qrc
+
 

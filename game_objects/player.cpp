@@ -4,6 +4,8 @@
 #include <QDebug>
 
 #include "../game_core/scene.h"
+#include "../game_core/area.h"
+#include "portal_bullet.h"
 
 Player::Player(Scene* scene) :
 	KinematicBody(scene)
@@ -13,15 +15,17 @@ Player::Player(Scene* scene) :
 	velocity_ = QVector2D(0, 0);
 }
 
-void Player::Update(qreal delta_) {
+void Player::Update() {
 	if (!is_on_floor_) {
 		velocity_ += KinematicBody::gravity;	
 	} else {
 		velocity_.setY(1);
 	}
 	KeyUpdate();
+	if (scene_->IsMouseKeyJustPressed(Qt::LeftButton)) {
+		FirePortalBullet();
+	}
 
-	qDebug() << is_on_floor_;
 	QList<Area*> areas;
 	MoveAndCollide(areas);
 }
@@ -46,3 +50,15 @@ void Player::KeyUpdate() {
 		velocity_ += QVector2D(0, -10);
 	}
 }
+
+void Player::FirePortalBullet() const {
+	QVector2D mouse_position = QVector2D(scene_->GetMousePosition());
+	QVector2D bullet_velocity = mouse_position - GetPosition();
+	bullet_velocity.normalize();
+
+	PortalBullet* portal_bullet = new PortalBullet(scene_);
+	portal_bullet->SetPosition(GetPosition() + bullet_velocity * 20);
+	portal_bullet->SetVelocity(bullet_velocity);
+	scene_->AddGameObject("bullet", portal_bullet);
+}
+

@@ -38,7 +38,7 @@ void WallMap::TakeMessage(Message* msg) {
 
 void WallMap::AddWallToGroup(const QString& name, Wall* wall) {
 	if (!groups_.contains(name)) {
-		qDebug() << "WallMap::AddWallToGroup(...) error: name doesn't exist";
+		qDebug() << "WallMap::AddWallToGroup(..) error: name doesn't exist";
 	}
 	groups_[name].push_back(wall);
 	for (Area* area : wall->GetAreas()) {
@@ -82,9 +82,9 @@ bool WallMap::IsGroupExist(const QString& name) {
 	return groups_.contains(name);
 }
 
-void WallMap::Update(qreal delta_time) {
+void WallMap::Update() {
 	for (Wall* wall : GetWalls()) {
-		wall->Update(delta_time);	
+		wall->Update();	
 	}
 }
 

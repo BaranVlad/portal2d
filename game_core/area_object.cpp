@@ -1,4 +1,5 @@
 #include "area_object.h"
+
 #include "scene.h"
 
 AreaObject::AreaObject(Scene* scene) :
@@ -37,9 +38,11 @@ QVector<Area*>& AreaObject::GetAreasViaGroupName(const QString& name) const {
 	return areas_[name];
 }
 
+void AreaObject::AddAreaToGroup(const QString& name, const QRectF& area_rect) {
+	areas_[name].push_back(new Area(name, area_rect, this));
+}
+
 void AreaObject::AddAreaToGroup(const QString& name, Area* area) {
 	areas_[name].push_back(area);
 }
-
-
 

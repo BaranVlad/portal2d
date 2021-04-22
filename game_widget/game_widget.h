@@ -6,9 +6,9 @@
 #include <QElapsedTimer>
 #include <QKeyEvent>
 
-#include "../game_core/scene.h"
+#define FPS 60
 
-#define FPS 30
+class Scene;
 
 class GameWidget : public QWidget {
 	Q_OBJECT
@@ -17,11 +17,19 @@ protected:
 	QElapsedTimer clock_;
 
 	void Update();
+
 	void keyPressEvent(QKeyEvent*);
 	void keyReleaseEvent(QKeyEvent*);
 	void paintEvent(QPaintEvent*);
+	void wheelEvent(QWheelEvent*);
+	void mouseMoveEvent(QMouseEvent*);
+	void mousePressEvent(QMouseEvent*);
+	void mouseReleaseEvent(QMouseEvent*);
+	void resizeEvent(QResizeEvent*);
 public:
 	GameWidget(QWidget* parent = nullptr);
+	~GameWidget();
+
 };
 
 #endif

@@ -9,17 +9,20 @@ class Wall : public CollideObject {
 protected:
 	QVector2D normal_vector_;
 	bool is_active_;
+	bool is_portable_;
 public:
 	Wall() = delete;
 	Wall(Scene* scene,
 		   	const QVector2D& normal_vector);
 
-	virtual void Update(qreal delta_time);
 	virtual void Draw(QPainter* painter) const;
 
 	bool IsActive() const;
 	void SetActive(bool value);
 	void ChangeState();
+
+	bool IsPortable() const;
+	void SetPortable(bool value);
 
 	virtual void DrawActive(QPainter* painter) const = 0;
 	virtual void DrawInactive(QPainter* painter) const = 0;

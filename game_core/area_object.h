@@ -1,5 +1,5 @@
-#ifndef PORTAL2D_AREA_H_
-#define PORTAL2D_AREA_H_
+#ifndef PORTAL2D_AREA_OBJECT_H_
+#define PORTAL2D_AREA_OBJECT_H_
 
 #include <QRectF>
 #include <QMap>
@@ -25,9 +25,9 @@ public:
 
 	bool IsGroupExist(const QString& name) const;
 	void AddGroup(const QString& name);
+	void AddAreaToGroup(const QString& name, const QRectF& area_rect);
 	void AddAreaToGroup(const QString& name, Area* area);
 
-	
 	QVector<Area*>& GetAreasViaGroupName(const QString& name) const;
 
 	QList<Area*> GetAreas() const;

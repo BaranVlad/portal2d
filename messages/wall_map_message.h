@@ -10,6 +10,8 @@ private:
 	QString group_name_;
 public:
 	WallMapMessage(const QString& dest, const QString& group_name);
+	WallMapMessage(const QString& dest, const QVector<void*>& params);
+
 	const QString& GetGroupName() const;
 };
 

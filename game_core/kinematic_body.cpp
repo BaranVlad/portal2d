@@ -27,12 +27,17 @@ bool KinematicBody::MoveAndCollide(QList<Area*>& areas)
 	bool is_collide = 
 		scene_->GetMovableIntersects(GetAreasViaGroupName("Collider")[0], 
 									velocity_, &offset, areas, direction);
-	
 	if (is_collide) {
 		if (direction == Direction::Up) {
 			is_on_floor_ = true;
 		} else {
 			is_on_floor_ = false;
+		}
+		
+		if (direction == Direction::Down) {
+			if (velocity_.y() < 0) {
+				velocity_.setY(0);
+			}	
 		}
 		
 		QVector2D suspend = velocity_ - offset;
@@ -42,20 +47,17 @@ bool KinematicBody::MoveAndCollide(QList<Area*>& areas)
 			suspend.setX(0);
 		}
 		Move(offset);
-		// Can be double enters objects in list
+		offset = suspend;
+
 		is_collide = 
-			scene_->GetMovableIntersects(GetAreasViaGroupName("Collider")[0],
+		scene_->GetMovableIntersects(GetAreasViaGroupName("Collider")[0],
 				   					suspend, &offset, areas, direction);
-		if (is_collide) {
-			Move(offset);
-		} else {
-			Move(suspend);
-		}
+		Move(offset);
 	} else {
 		is_on_floor_ = false;
 		Move(velocity_);
 	}
-	
+	return is_collide;	
 }
 
 

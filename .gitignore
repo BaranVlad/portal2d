@@ -1,0 +1,10 @@
+*.swp
+*.swo
+moc_*
+*.o
+
+portal2d
+.qmake.stash
+Makefile
+
+

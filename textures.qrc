@@ -1,0 +1,6 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file alias="background.png">textures/squared_paper.png</file>
+</qresource>
+</RCC>
+

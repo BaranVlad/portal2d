@@ -11,6 +11,7 @@ private:
 	Wall* wall_;
 public:
 	WallMapAddMessage(const QString dest, Wall* wall);
+	WallMapAddMessage(const QString dest, const QVector<void*>& params);
 	Wall* GetWall() const;
 };
 

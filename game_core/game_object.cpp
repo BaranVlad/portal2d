@@ -2,7 +2,24 @@
 
 GameObject::GameObject(Scene* scene) : scene_(scene) {}
 
-QPointF GameObject::VectorToPoint(const QVector2D& vec) {
-	return QPointF(vec.x(), vec.y());
+void GameObject::TakeMessage(Message* msg) 
+{}
+
+QJsonValue GameObject::ToJsonValue() const 
+{}
+
+void GameObject::FromJsonObject(const QJsonObject& js) 
+{}
+
+Scene* GameObject::GetScene() const {
+	return scene_;
+}
+
+void GameObject::SetName(const QString& name) {
+	name_ = name;
+}
+
+const QString& GameObject::GetName() const {
+	return name_;
 }
 

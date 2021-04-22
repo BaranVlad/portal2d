@@ -7,6 +7,13 @@ WallMapAddToGroupMessage::WallMapAddToGroupMessage(const QString& dest,
 	wall_(wall)
 {}
 
+WallMapAddToGroupMessage::WallMapAddToGroupMessage(const QString& dest,
+		   									const QVector<void*> params) :
+	Message(dest),
+	group_name_(*(QString*)params[0]),
+	wall_((Wall*)params[1])
+{}
+
 const QString& WallMapAddToGroupMessage::GetGroupName() const {
 	return group_name_;	
 }
@@ -14,5 +21,4 @@ const QString& WallMapAddToGroupMessage::GetGroupName() const {
 Wall* WallMapAddToGroupMessage::GetWall() const {
 	return wall_;
 }
-
 
