@@ -72,12 +72,12 @@ bool MapEditor::IsPkmPressed() const {
 }
 
 void MapEditor::mouseMoveEvent(QMouseEvent* event) {
-	QRectF camera_rect = scene_->GetCamera()->GetCurrentRect();
+	/*QRectF camera_rect = scene_->GetCamera()->GetCurrentRect();
 	
 	mouse_pos_ = event->localPos().toPoint();
 	mouse_pos_ -= camera_rect.topLeft().toPoint();	
 	mouse_pos_ *= (double)EDITOR_HEIGHT / (double)height();
-	mouse_pos_ *= (double)EDITOR_HEIGHT / (double)camera_rect.height();
+	mouse_pos_ *= (double)EDITOR_HEIGHT / (double)camera_rect.height();*/
 
 	QWidget::mouseMoveEvent(event);
 }

@@ -4,10 +4,13 @@
 #include "../wall_mechanics/wall_map.h"
 #include "../messages/wall_map_add_to_group_message.h"
 #include "../messages/wall_map_message.h"
+#include "../messages/spawn_box_message.h"
 #include "../game_objects/player.h"
 #include "../game_objects/floor_button.h"
 #include "../game_core/scene.h"
 #include "../game_core/camera.h"
+#include "../game_objects/box.h"
+#include "../game_objects/spawn_box.h"
 
 #include <QVector>
 #include <QPushButton>
@@ -27,9 +30,15 @@ GameWidget::GameWidget(QWidget* parent) :
 //	
 	StraightWall* wall = new StraightWall(scene_, Direction::Down, 700);
 	wall->SetPosition(200, 500);
+	wall->SetPortable(true);
 
-	StraightWall* wall1 = new StraightWall(scene_, Direction::Down, 20);
-	wall1->SetPosition(600, 480);
+	StraightWall* wall1 = new StraightWall(scene_, Direction::Right, 100);
+	wall1->SetPosition(600, 400);
+	wall1->SetPortable(true);
+
+	StraightWall* wall2 = new StraightWall(scene_, Direction::Up, 700);
+	wall2->SetPosition(200, 200);
+	wall2->SetPortable(true);
 
 	WallMap* wall_map = new WallMap(scene_);
 	wall_map->SetPosition(0, 0);
@@ -37,7 +46,13 @@ GameWidget::GameWidget(QWidget* parent) :
 
 	WallMapAddToGroupMessage* msg = new 
 		WallMapAddToGroupMessage("WallMap", "group1", wall);
+	WallMapAddToGroupMessage* msg1 = new 
+		WallMapAddToGroupMessage("WallMap", "group2", wall1);
+	WallMapAddToGroupMessage* msg4 = new 
+		WallMapAddToGroupMessage("WallMap", "group2", wall2);
 	scene_->SendTo(msg);
+	scene_->SendTo(msg1);
+	scene_->SendTo(msg4);
 
 	Player* player = new Player(scene_);
 	player->SetPosition(250, 200);
@@ -45,15 +60,23 @@ GameWidget::GameWidget(QWidget* parent) :
 
 	FloorButton* button = new FloorButton(scene_);	
 	button->SetPosition(300, 500 - BUTTON_HEIGHT);
-	QVector<void*> data = { wall1 };
-	button->SetAction(Message::Type::wall_map_add_message, "WallMap", data);
+
+	SpawnBoxMessage* msg2 = new SpawnBoxMessage("spawn");
+	button->SetPressMessage(msg2);
+	button->SetReleaseMessage(msg2);
+	
 	scene_->AddGameObject("Button", button);
+
+	SpawnBox* spawn = new SpawnBox(scene_);
+	scene_->AddGameObject("spawn", spawn);
+	spawn->SetPosition(400, 400);
 }
 
 void GameWidget::Update() {
 	scene_->Update(clock_.elapsed());
 	clock_.start();	
 	update();
+	scene_->WriteToJson("level1.json");
 }
 
 void GameWidget::paintEvent(QPaintEvent*) {

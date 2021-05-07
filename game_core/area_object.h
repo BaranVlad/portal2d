@@ -27,6 +27,10 @@ public:
 	void AddGroup(const QString& name);
 	void AddAreaToGroup(const QString& name, const QRectF& area_rect);
 	void AddAreaToGroup(const QString& name, Area* area);
+	void ClearGroup(const QString& name);
+ 
+	virtual void ToJsonObject(QJsonObject& js) const;
+	virtual void FromJsonObject(const QJsonObject& js);
 
 	QVector<Area*>& GetAreasViaGroupName(const QString& name) const;
 

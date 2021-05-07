@@ -5,11 +5,15 @@ GameObject::GameObject(Scene* scene) : scene_(scene) {}
 void GameObject::TakeMessage(Message* msg) 
 {}
 
-QJsonValue GameObject::ToJsonValue() const 
-{}
+void GameObject::ToJsonObject(QJsonObject& js) const 
+{
+	js["name"] = name_;
+}
 
 void GameObject::FromJsonObject(const QJsonObject& js) 
-{}
+{
+	name_ = js["name"].toString();
+}
 
 Scene* GameObject::GetScene() const {
 	return scene_;

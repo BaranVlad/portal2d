@@ -42,21 +42,17 @@ SOURCES += 	main.cpp \
 			messages/wall_map_message.cpp \
 			messages/wall_map_add_message.cpp \
 			messages/wall_map_add_to_group_message.cpp \
+			messages/spawn_box_message.cpp \
 			\
 			game_widget/game_widget.cpp \
 			\
 			game_objects/player.cpp \
 			game_objects/floor_button.cpp \
 			game_objects/portal_bullet.cpp \
+			game_objects/portal.cpp \
+			game_objects/box.cpp \
+			game_objects/spawn_box.cpp \
 			\
-			map_editor/map_editor.cpp \
-			map_editor/item_button.cpp \
-			map_editor/editor_strategy.cpp \
-			map_editor/editor_camera.cpp \
-			map_editor/editor_scene.cpp \
-			\
-			map_editor/strategies/player_strategy.cpp \
-			map_editor/strategies/walls_strategy.cpp \
 
 HEADERS +=	game_core/game_object.h \
 			game_core/view.h \
@@ -68,6 +64,7 @@ HEADERS +=	game_core/game_object.h \
 			game_core/kinematic_body.h \
 			game_core/button.h \
 			game_core/camera.h \
+			game_core/consts.h \
 			\
 			wall_mechanics/straight_wall.h \
 			wall_mechanics/wall.h \
@@ -76,22 +73,17 @@ HEADERS +=	game_core/game_object.h \
 			messages/wall_map_message.h \
 			messages/wall_map_add_message.h \
 			messages/wall_map_add_to_group_message.h \
+			messages/spawn_box_message.h \
 			\
 			game_widget/game_widget.h \
 			\
 			game_objects/player.h \
 			game_objects/floor_button.h \
 			game_objects/portal_bullet.h \
+			game_objects/portal.h \
+			game_objects/box.h \
+			game_objects/spawn_box.h \
 			\
-			map_editor/map_editor.h \
-			map_editor/item_button.h \
-			map_editor/editor_strategy.h \
-			map_editor/editor_camera.h \
-			map_editor/editor_scene.h \
-			\
-			map_editor/strategies/player_strategy.h \
-			map_editor/strategies/walls_strategy.h \
-
 
 RESOURCES = textures.qrc
 

@@ -6,5 +6,6 @@ moc_*
 portal2d
 .qmake.stash
 Makefile
+compile_commands.json
 
 

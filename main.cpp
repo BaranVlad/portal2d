@@ -7,6 +7,6 @@ int main(int argc, char** argv) {
 
 	GameWidget widget;
 	widget.show();
-	
+
 	return app.exec();
 }

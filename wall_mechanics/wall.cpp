@@ -44,3 +44,6 @@ void Wall::SetPortable(bool value) {
 	is_portable_ = value;
 }
 
+void Wall::CreatePortal() 
+{}
+

@@ -14,23 +14,25 @@ class StraightWall : public Wall {
 private:
 	Direction direction_;
 	qreal len_;
-	QVector2D end_point_;
-
-	void UpdateEndPoint();
+	QLineF line_;
 public:
 	StraightWall() = delete;
 	StraightWall(Scene* scene, Direction dir, qreal len);
 
 	virtual void DrawActive(QPainter* painter) const;
 	virtual void DrawInactive(QPainter* painter) const;
-	virtual void TakeMessage(Message* message);
 	virtual void Update();
+
+	virtual qreal GetWidth() const;
+	virtual qreal GetHeight() const;
 
 	virtual void SetPosition(qreal x, qreal y);
 	virtual void SetPosition(const QVector2D& position);
 
-	void DrawPortablePart(QPainter* painter) const;
+	QLineF GetLine() const;
 
+	void DrawPortablePart(QPainter* painter) const;
+	void OpenPortal(const QPointF& point, const QString& name) const;
 };
 
 #endif

@@ -12,9 +12,22 @@ Area::Area(const QString& name,
 	GameObject(area_object->GetScene()),
 	area_object_(area_object),
 	rect_area_(rect_area),
-	name_(name),
 	is_active_(true)
-{}
+{
+	SetName(name);
+}
+
+Area::Area(const QString& name, 
+			const QJsonObject& js, 
+			AreaObject* area_object) : 
+	GameObject(area_object->GetScene()),
+	area_object_(area_object),
+	is_active_(true)
+{
+	SetName(name);
+	FromJsonObject(js);
+}
+
 
 bool Area::IsActive() const {
 	return is_active_;
@@ -56,7 +69,6 @@ QRectF Area::GetGlobalRect() const {
 	QPointF move_position(position.x(), position.y());
 	global_rect.moveTo(rect_area_.topLeft() + move_position);
 
-	qDebug() << global_rect;
 	return global_rect;
 }
 
@@ -67,7 +79,7 @@ void Area::MoveRect(const QVector2D& vec) {
 bool Area::MovableIntersect(Area* move_area, const QVector2D& velocity,
 		   						QVector2D* offset, Direction& direction)
 {
-	bool is_collide;
+	bool is_collide = false;
 	QRectF global_move = move_area->GetGlobalRect();
 	QRectF global_area = GetGlobalRect();
 
@@ -262,7 +274,7 @@ bool Area::StraightMoveIntersect(const QPointF& first, const QPointF& second,
 							const QVector2D& velocity, 
 							QVector2D* offset, Direction& direction)
 {
-	QPointF vel_point = velocity.toPoint();
+	QPointF vel_point = velocity.toPointF();
 	QPointF i_point1;	
 	QPointF i_point2;	
 
@@ -290,4 +302,20 @@ bool Area::StraightMoveIntersect(const QPointF& first, const QPointF& second,
 
 void Area::Update() 
 {}
+
+void Area::ToJsonObject(QJsonObject& js) const {
+	GameObject::ToJsonObject(js);
+	js["rect_x"] = rect_area_.x();
+	js["rect_y"] = rect_area_.y();
+	js["rect_width"] = rect_area_.width();
+	js["rect_height"] = rect_area_.height();
+}
+ 
+void Area::FromJsonObject(const QJsonObject& js) {
+	GameObject::FromJsonObject(js);
+	rect_area_.setX(js["rect_x"].toDouble());
+	rect_area_.setY(js["rect_y"].toDouble());
+	rect_area_.setWidth(js["rect_width"].toDouble());
+	rect_area_.setHeight(js["rect_height"].toDouble());
+}
 

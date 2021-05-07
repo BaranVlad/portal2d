@@ -22,7 +22,18 @@ public:
 
 	virtual void SetPosition(const QVector2D& position);
 	virtual void SetPosition(qreal x, qreal y);
+
+	virtual void ToJsonObject(QJsonObject& js) const;
+	virtual void FromJsonObject(const QJsonObject& js);
+	
+	virtual qreal GetWidth() const = 0;
+	virtual qreal GetHeight() const = 0;
+	QVector2D GetCenter() const;
+
+	void SetCenter(const QVector2D& new_pos);
+
 	void Move(const QVector2D& offset);
+	void Move(qreal x, qreal y);
 	QVector2D GetPosition() const;
 
 	virtual void Draw(QPainter* painter) const = 0;

@@ -16,12 +16,13 @@ private:
 	AreaObject* area_object_;
 	QRectF rect_area_;	
 	
-	QString name_;
 	bool is_active_;
 public:
 	Area() = delete;
 	Area(const QString& name,
 		   	const QRectF& rect_area, AreaObject* area_object);
+	Area(const QString& name, 
+			const QJsonObject& js, AreaObject* area_object);
 
 	virtual void Update();
 
@@ -31,6 +32,9 @@ public:
 	void SetRect(const QRectF& rect_area);
 	void MoveRect(const QVector2D& vec);
 	
+	virtual void ToJsonObject(QJsonObject& js) const;
+	virtual void FromJsonObject(const QJsonObject& js);
+
 	AreaObject* GetAreaObject() const;
 	const QString& GetName() const;
 
@@ -63,4 +67,4 @@ public:
 };
 
 #endif
-
+ 

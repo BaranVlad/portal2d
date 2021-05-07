@@ -17,6 +17,9 @@ public:
 	virtual void Update();
 	virtual void Draw(QPainter* painter) const;
 
+	virtual qreal GetWidth() const;
+	virtual qreal GetHeight() const;
+
 	void AddWall(Wall* wall);
 	void AddWallGroup(const QString& name);
 	void AddWallToGroup(const QString& name, Wall* wall);

@@ -33,7 +33,6 @@ void WallMap::TakeMessage(Message* msg) {
 		}
 		AddWallToGroup(group_name, add_to_group_msg->GetWall());
 	}
-	delete msg;
 }
 
 void WallMap::AddWallToGroup(const QString& name, Wall* wall) {
@@ -92,5 +91,13 @@ void WallMap::Draw(QPainter* painter) const {
 	for (Wall* wall : GetWalls()) {
 		wall->Draw(painter);
 	}
+}
+
+qreal WallMap::GetWidth() const {
+	return 0;
+}
+
+qreal WallMap::GetHeight() const {
+	return 0;
 }
 

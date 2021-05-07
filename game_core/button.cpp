@@ -8,16 +8,44 @@ Button::Button(Scene* scene) :
 	AddGroup("Target");
 }
 
-void Button::SetAction(Message::Type message_type, const QString& dest,
-		   								const QVector<void*>& params)
-{
-	message_type_ = message_type;
-	dest_ = dest;
-	params_ = params;
+Button::~Button() {
+	if (press_message_) {
+		delete press_message_;
+	}
+	if (release_message_) {
+		delete release_message_;
+	}
 }
 
-void Button::SendButtonAction() {
-	Message* message = Message::GetMessage(message_type_, dest_, params_);
-	scene_->SendTo(message);
+void Button::SetPressMessage(Message* message) {
+	press_message_ = message;
 }
+
+void Button::SetReleaseMessage(Message* message) {
+	release_message_ = message;
+}
+
+void Button::SendPressMessage() {
+	if (!press_message_) {
+		return;
+	}
+	scene_->SendTo(press_message_);	
+}
+
+void Button::SendReleaseMessage() {
+	if (!release_message_) {
+		return;
+	}
+	scene_->SendTo(release_message_);	
+}
+
+void Button::ToJsonObject(QJsonObject& js) const {
+	AreaObject::ToJsonObject(js);
+	
+}
+
+void Button::FromJsonObject(const QJsonObject& js) {
+	AreaObject::FromJsonObject(js);
+}
+
 

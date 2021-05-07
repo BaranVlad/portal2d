@@ -26,3 +26,11 @@ Message* Message::GetMessage(Type type, const QString& dest,
 	return nullptr;
 }
 
+void Message::ToJsonObject(QJsonObject& js) const {
+	
+}
+
+void Message::FromJsonObject(const QJsonObject& js) {
+
+}
+

@@ -3,38 +3,36 @@
 
 #include <QPainter>
 #include <QDebug>
+#include <QResizeEvent>
 
 #include "game_object.h"
 
 class Camera : public GameObject {
 private:
 	QPainter* painter_;	
-	QSizeF source_size_;
-
-	// It is camera rect. This image will show on the screen. x and y
-	// is coords before scaling
-	QRectF current_rect_;
 	
+	QPointF camera_point_;
+	qreal camera_scale_;
+	QRect window_rect_;
 public:
 	Camera() = delete;
 	Camera(Scene* scene);
 
 	void SetPainter(QPainter* painter);
-	void SetSourceSize(qreal width, qreal height);
-	void SetSourceSize(const QSizeF& size);
 
-	void SetCurrentRect(const QRectF& current_rect);
-	void SetCurrentRect(qreal x, qreal y, qreal w, qreal h);
-	const QRectF& GetCurrentRect() const;
+	void SetWindowRect(const QRect& window_rect);
+	const QRect& GetWindowRect();
 
-	QPointF PointToCurrent(const QPoint& point);
-	QPointF PointFromCurrent(const QPoint& point);
+	QPointF PointToCurrent(const QPointF& point);
+	QPointF PointFromCurrent(const QPointF& point);
 
 	virtual void Update();
 
 	void MoveBy(qreal dx, qreal dy);
 	void MoveTo(qreal x, qreal y);
 	void ResizeBy(qreal d);
+
+	void resizeEvent(QResizeEvent* event);
 };
 
 #endif

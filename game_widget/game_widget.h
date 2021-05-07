@@ -29,7 +29,6 @@ protected:
 public:
 	GameWidget(QWidget* parent = nullptr);
 	~GameWidget();
-
 };
 
 #endif

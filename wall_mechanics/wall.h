@@ -26,6 +26,7 @@ public:
 
 	virtual void DrawActive(QPainter* painter) const = 0;
 	virtual void DrawInactive(QPainter* painter) const = 0;
+	virtual void CreatePortal();
 };
 
 #endif

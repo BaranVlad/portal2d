@@ -5,15 +5,20 @@
 #include "collide_object.h"
 #include "camera.h"
 #include "view.h"
+#include "../wall_mechanics/straight_wall.h"
+#include "../wall_mechanics/wall_map.h"
+#include "../game_objects/box.h"
+
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QJsonValue>
 
 Scene::Scene(QObject* parent) :
 	QObject(parent),
 	camera_(new Camera(this)),
 	background(":background.png")
-{
-	camera_->SetSourceSize(800, 600);
-	camera_->SetCurrentRect(0, 0, 800, 600);
-}
+{}
 
 Scene::~Scene() {
 	for (GameObject* object : objects.values()) {
@@ -32,7 +37,7 @@ void Scene::Draw(QPainter* painter) const {
 		if (object_to_draw) {
 			object_to_draw->Draw(painter);
 		}
-	}	
+	}
 }
 
 void Scene::Update(qreal delta_time) {
@@ -40,7 +45,7 @@ void Scene::Update(qreal delta_time) {
 	for (GameObject* object : objects.values()) {
 		object->Update();
 	}
-	KeysUpdate();
+	PostUpdate();
 }
 
 QList<Area*> Scene::GetIntersected(Area* area) {
@@ -54,16 +59,17 @@ QList<Area*> Scene::GetIntersected(Area* area) {
 			if (game_area->IsIntersects(*area)) {
 				result.push_back(game_area);
 			}
-		}	
+		}
 	}
 	return result;
 }
 
-void Scene::SendTo(Message* message) {
+void Scene::ForceSend(Message* message) {
 	objects[message->GetDest()]->TakeMessage(message);
 }
 
-void Scene::AddGameObject(const QString& name, GameObject* game_object) {
+void Scene::ForceAdd(GameObject* game_object) {
+	QString name = game_object->GetName();
 	if (objects.contains(name)) {
 		qDebug() << "Scene::AddGameObject(...) error: object with name " 
 				<< name << " already exist";
@@ -73,15 +79,17 @@ void Scene::AddGameObject(const QString& name, GameObject* game_object) {
 	objects[name] = game_object;	
 }
 
-bool Scene::GetMovableIntersects(Area* move_area, const QVector2D& velocity,
-						QVector2D* offset, QList<Area*>& areas, Direction& direction) 
+bool Scene::GetMovableIntersects(Area* move_area, 
+		const QVector2D& velocity, QVector2D* offset, 
+							QList<Area*>& areas, Direction& direction) 
 {
+	areas = GetIntersected(move_area);
 	QVector2D temp_offset;
 	Direction temp_direction;
 	bool has_offset = false;
 	bool is_collide = false;
 	for (Area* area : GetAllAreas()) {
-		if (area == move_area) {
+		if (area == move_area || !area->IsActive()) {
 			continue;
 		}
 		if (area->MovableIntersect(move_area, velocity,
@@ -107,6 +115,9 @@ QList<Area*> Scene::GetAllAreas() {
 	QList<Area*> result;	
 	for (GameObject* object : objects.values()) {
 		AreaObject* area_object = dynamic_cast<AreaObject*>(object);
+		if (!area_object) {
+			continue;
+		}
 		for (Area* area : area_object->GetAreas()) {
 			result.push_back(area);
 		}
@@ -206,7 +217,7 @@ void Scene::DrawBackground(QPainter* painter) const {
 	painter->drawPixmap(0, 0, background);
 }
 
-void Scene::DeleteObject(const QString& name) {
+void Scene::ForceDelete(const QString& name) {
 	if (!IsOnScene(name)) {
 		return;
 	}
@@ -216,6 +227,7 @@ void Scene::DeleteObject(const QString& name) {
 
 void Scene::mouseMoveEvent(QMouseEvent* event) {
 	mouse_position_ = event->localPos();
+	mouse_position_ = camera_->PointToCurrent(mouse_position_);
 }
 
 void Scene::mousePressEvent(QMouseEvent* event) {
@@ -253,6 +265,119 @@ QRect Scene::GetRect() const {
 }
 
 void Scene::resizeEvent(QResizeEvent* event) {
-	window_size_ = event->size();
+	camera_->resizeEvent(event);
+}
+
+bool Scene::GetWallLineIntersect(const QLineF& line,
+				QVector2D* intersect_point, StraightWall** res_wall)
+{
+	QVector2D res_point(line.p2());
+	QPointF temp_point;
+	StraightWall* s_wall;
+	bool is_intersection = false;
+	for (Wall* wall : GetAllWalls()) {
+		s_wall = dynamic_cast<StraightWall*>(wall);
+		if (!s_wall) {
+			continue;
+		}
+		if (!s_wall->IsActive()) {
+			continue;
+		}
+		if (line.intersect(s_wall->GetLine(), &temp_point) == 
+					QLineF::BoundedIntersection) 
+		{
+			if ((res_point - QVector2D(line.p1())).length() >
+			   (QVector2D(temp_point) - QVector2D(line.p1())).length()) 
+			{	
+				res_point = QVector2D(temp_point);
+				*res_wall = s_wall;
+			}
+			is_intersection = true;
+		}
+	}
+	*intersect_point = res_point;
+	return is_intersection;
+}
+
+QList<Wall*> Scene::GetAllWalls() {
+	WallMap* wall_map = dynamic_cast<WallMap*>(objects["WallMap"]);
+	return wall_map->GetWalls();
+}
+
+void Scene::DeleteUpdate() {
+	while (!to_delete.empty()) {
+		ForceDelete(to_delete.back()->GetName());		
+		to_delete.pop_back();
+	}
+}
+
+void Scene::AddUpdate() {
+	while (!to_add.empty()) {
+		ForceAdd(to_add.back());		
+		to_add.pop_back();
+	}
+}
+
+void Scene::MessageUpdate() {
+	while (!to_send.empty()) {
+		ForceSend(to_send.back());		
+		to_send.pop_back();
+	}
+}
+
+void Scene::DeleteObject(const QString& name) {
+	to_delete.push_back(objects[name]);
+}
+
+void Scene::AddGameObject(const QString& name, GameObject* game_object) {
+	game_object->SetName(name);
+	to_add.push_back(game_object);
+}
+
+void Scene::PostUpdate() {
+	DeleteUpdate();	
+	AddUpdate();
+	MessageUpdate();
+	KeysUpdate();
+}
+
+void Scene::SendTo(Message* message) {
+	to_send.push_back(message);
+}
+
+GameObject* Scene::GetObject(const QString& str) const {
+	return objects[str];
+}
+
+void Scene::WriteToJson(const QString& file_name) const {
+	QFile json_file("levels/" +  file_name);
+	json_file.open(QIODevice::WriteOnly | QIODevice::Text);
+
+	QJsonArray scene_array;
+	for (GameObject* object : objects.values()) {
+		QJsonObject json_object;
+		object->ToJsonObject(json_object);
+		scene_array.push_back(QJsonValue(json_object));
+	}
+
+	QJsonDocument document;
+	document.setArray(scene_array);
+	json_file.write(document.toJson());
+	json_file.close();
+}
+
+void Scene::ReadFromJson(const QString& file_name) {
+
+}
+
+QList<Box*> Scene::GetBoxes() {
+	QList<Box*> boxes;
+	for (QString& key : objects.keys()) {
+		Box* box = dynamic_cast<Box*>(objects[key]);
+		if (box) {
+			boxes.push_back(box);
+		}
+	}
+	return boxes;
 }
 

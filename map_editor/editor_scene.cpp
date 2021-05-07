@@ -16,7 +16,7 @@ void EditorScene::Update(qreal delta_time) {}
 void EditorScene::SaveMapToJson(const QString& file_name) const {
 	QJsonObject json_object;
 	for (auto& object_str : objects.keys()) {
-		json_object[object_str] = objects[object_str]->ToJsonValue();
+		json_object[object_str] = objects[object_str]->ToJsonObject();
 	}
 	QJsonDocument document(json_object);	
 	QFile file(file_name);

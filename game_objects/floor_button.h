@@ -5,6 +5,7 @@
 
 #define BUTTON_WIDTH 50
 #define BUTTON_HEIGHT 10
+#define BUTTON_PRESSED_HEIGHT 5
 
 class FloorButton : public Button {
 private:
@@ -14,6 +15,12 @@ public:
 
 	virtual void Update();
 	virtual void Draw(QPainter* painter) const;
+
+	virtual qreal GetWidth() const;
+	virtual qreal GetHeight() const;
+
+	virtual void ToJsonObject(QJsonObject& js) const;
+	virtual void FromJsonObject(const QJsonObject& js);
 };
 
 #endif

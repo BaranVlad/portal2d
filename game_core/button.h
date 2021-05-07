@@ -7,18 +7,23 @@
 
 class Button : public AreaObject {
 private:
-	QVector<void*> params_;
-	QString dest_;
-	Message::Type message_type_;
+	Message* press_message_ = nullptr;
+	Message* release_message_ = nullptr;
 protected:
 	bool is_pressed_ = false;
 public:
 	Button() = delete;
 	Button(Scene* scene);
+	~Button();
 
-	void SetAction(Message::Type message_type, const QString& dest_,
-		   								const QVector<void*>& params);
-	void SendButtonAction();
+	void SetPressMessage(Message* message);
+	void SetReleaseMessage(Message* message);
+
+	void SendPressMessage();
+	void SendReleaseMessage();
+
+	virtual void ToJsonObject(QJsonObject& js) const;
+	virtual void FromJsonObject(const QJsonObject& js);
 };
 
 #endif

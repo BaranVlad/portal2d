@@ -3,6 +3,8 @@
 
 #include <QVector2D>
 #include <QPoint>
+#include <QJsonObject>
+#include <QJsonArray>
 #include <QJsonValue>
 
 enum class Direction { Up, Down, Left, Right };
@@ -19,8 +21,9 @@ public:
 	GameObject(Scene* scene);
 
 	virtual void Update() = 0;
-	virtual QJsonValue ToJsonValue() const;
+	virtual void ToJsonObject(QJsonObject& js) const;
 	virtual void FromJsonObject(const QJsonObject& js);
+
 	Scene* GetScene() const;
 	void SetName(const QString& name);
 	const QString& GetName() const;
