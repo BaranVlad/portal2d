@@ -16,7 +16,8 @@ protected:
 	Scene* scene_;
 	QElapsedTimer clock_;
 
-	void Update();
+	virtual void Update();
+	void StartGame(int level);
 
 	void keyPressEvent(QKeyEvent*);
 	void keyReleaseEvent(QKeyEvent*);

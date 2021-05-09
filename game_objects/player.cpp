@@ -9,8 +9,10 @@
 #include "portal_bullet.h"
 #include "portal.h"
 #include "box.h"
+#include "finish_area.h"
 
 #include "../game_core/consts.h"
+#include "qnamespace.h"
 
 Player::Player(Scene* scene) :
 	KinematicBody(scene)
@@ -27,6 +29,8 @@ void Player::Update() {
 	{
 		OpenPortal();
 	}
+	StraightWall* wall = nullptr;
+	GetAimLine(&fire_line, &wall);
 
 	QList<Area*> areas;
 	MoveAndCollide(areas);
@@ -34,13 +38,14 @@ void Player::Update() {
 }
 
 void Player::Draw(QPainter* painter) const {
-	painter->drawRect(GetAreasViaGroupName("Collider")[0]->GetGlobalRect());
+	painter->setPen(QPen(Qt::black, 2));
+	painter->setBrush(Qt::blue);
+
+	painter->
+		drawRect(GetAreasViaGroupName("Collider")[0]->GetGlobalRect());
 
 	painter->setPen(QPen(Qt::gray, 4));
-	QLineF aim_line;
-	StraightWall* wall = nullptr;
-	GetAimLine(&aim_line, &wall);
-	painter->drawLine(aim_line);
+	painter->drawLine(fire_line);
 }
 
 void Player::TakeMessage([[maybe_unused]] Message* msg)
@@ -113,6 +118,7 @@ void Player::OpenPortal() {
 
 void Player::CollisionUpdate(const QList<Area*>& list) {
 	Portal* portal = nullptr;
+	FinishArea* finish = nullptr;
 	for (Area* area : list) {
 		AreaObject* area_object = area->GetAreaObject();
 		if (portal = dynamic_cast<Portal*>(area_object)) {
@@ -121,6 +127,9 @@ void Player::CollisionUpdate(const QList<Area*>& list) {
 			if (box_taked) {
 				box_taked->Teleport(portal);
 			}
+		}
+		if (finish = dynamic_cast<FinishArea*>(area_object)) {
+			scene_->Win();
 		}
 	}
 }

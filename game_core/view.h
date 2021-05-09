@@ -15,7 +15,7 @@ protected:
 	/* Every view has one point in global coordinates
 	 * others points of a children will be a local coordinates 
 	 * regarding to position */
-	QVector2D position_;
+	QVector2D position_ = QVector2D(100, 100);
 public:
 	View() = delete;
 	View(Scene* scene);
@@ -31,6 +31,7 @@ public:
 	QVector2D GetCenter() const;
 
 	void SetCenter(const QVector2D& new_pos);
+	void SetCenter(qreal x, qreal y);
 
 	void Move(const QVector2D& offset);
 	void Move(qreal x, qreal y);

@@ -4,10 +4,16 @@
 #include "common_message.h"
 #include "collide_object.h"
 #include "camera.h"
+#include "qnamespace.h"
 #include "view.h"
 #include "../wall_mechanics/straight_wall.h"
 #include "../wall_mechanics/wall_map.h"
 #include "../game_objects/box.h"
+#include "../game_objects/player.h"
+#include "../game_objects/spawn_box.h"
+#include "../game_objects/floor_button.h"
+#include "../game_objects/finish_area.h"
+#include "../game_objects/press_button.h"
 
 #include <QJsonDocument>
 #include <QJsonArray>
@@ -18,12 +24,12 @@ Scene::Scene(QObject* parent) :
 	QObject(parent),
 	camera_(new Camera(this)),
 	background(":background.png")
-{}
+{
+	
+}
 
 Scene::~Scene() {
-	for (GameObject* object : objects.values()) {
-		delete object;
-	}
+	Restart();
 	delete camera_;
 }
 
@@ -31,19 +37,21 @@ void Scene::Draw(QPainter* painter) const {
 	camera_->SetPainter(painter);
 	camera_->Update();
 
-	DrawBackground(painter);
 	for (GameObject* object : objects.values()) {
 		View* object_to_draw = dynamic_cast<View*>(object);
 		if (object_to_draw) {
 			object_to_draw->Draw(painter);
+			DrawDebugInfo(painter, object_to_draw);
 		}
 	}
 }
 
 void Scene::Update(qreal delta_time) {
 	delta_time_ = delta_time;
-	for (GameObject* object : objects.values()) {
-		object->Update();
+	if (!is_paused) {
+		for (GameObject* object : objects.values()) {
+			object->Update();
+		}
 	}
 	PostUpdate();
 }
@@ -190,8 +198,7 @@ void Scene::wheelEvent(QWheelEvent* event) {
 }
 
 void Scene::SetGameObjectPosition(const QString& name,
-	   										const QVector2D& pos)
-{
+	   										const QVector2D& pos) {
 	if (!objects.contains(name)) {
 		qDebug() << "Scene::SetGameObjectPosition(...) name doesn't exist";
 		return;
@@ -338,6 +345,17 @@ void Scene::PostUpdate() {
 	DeleteUpdate();	
 	AddUpdate();
 	MessageUpdate();
+	
+	if (IsKeyJustPressed(Qt::Key_U)) {
+		WriteToJson("level1.json");
+	}
+	if (IsKeyJustPressed(Qt::Key_L)) {
+		ReadFromJson("level1.json");
+	}
+	if (IsKeyJustPressed(Qt::Key_P)) {
+		SetPause(!IsPaused());
+	}
+
 	KeysUpdate();
 }
 
@@ -366,8 +384,34 @@ void Scene::WriteToJson(const QString& file_name) const {
 	json_file.close();
 }
 
-void Scene::ReadFromJson(const QString& file_name) {
+#define READ_JSON_IF(class_t) \
+	if (class_type == #class_t) { 		\
+		game_object = new class_t(this);	\
+		game_object->FromJsonObject(game_obj); 	\
+	}
 
+void Scene::ReadFromJson(const QString& file_name) {
+	Restart();
+
+	QFile file("levels/" + file_name);
+	file.open(QIODevice::ReadOnly);
+	QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
+
+	GameObject* game_object;
+	for (QJsonValueRef game_val : doc.array()) {
+		QJsonObject game_obj = game_val.toObject();
+		QString class_type = game_obj["class"].toString();
+		READ_JSON_IF(Player);
+		READ_JSON_IF(WallMap);
+		READ_JSON_IF(SpawnBox);
+		READ_JSON_IF(FloorButton);
+		READ_JSON_IF(Box);
+		READ_JSON_IF(FinishArea);
+		READ_JSON_IF(PressButton);
+		AddGameObject(game_object->GetName(), game_object);
+	}
+
+	file.close();
 }
 
 QList<Box*> Scene::GetBoxes() {
@@ -379,5 +423,41 @@ QList<Box*> Scene::GetBoxes() {
 		}
 	}
 	return boxes;
+}
+
+void Scene::Restart() {
+	to_delete.clear();
+	to_add.clear();
+	to_send.clear();
+
+	for (GameObject* object : objects.values()) {
+		delete object;
+	}
+	objects.clear();
+}
+
+void Scene::Win() {
+	qDebug() << "win!";
+}
+
+void Scene::SetPause(bool value) {
+	is_paused = value;
+}
+
+bool Scene::IsPaused() const {
+	return is_paused;
+}
+
+void Scene::DrawDebugInfo(QPainter* painter, View* view) const {
+	QVector2D pos = view->GetPosition();
+
+	painter->setPen(Qt::black);
+
+	painter->drawText(pos.x(), pos.y() - 20, 100, 20, 0, 
+	QString("%1 %2 %3").arg(view->GetName()).arg(pos.x()).arg(pos.y()));
+}
+
+void Scene::SetDebugInfo(bool value) {
+	is_draw_debug = value;
 }
 

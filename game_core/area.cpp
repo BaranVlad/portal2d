@@ -319,3 +319,7 @@ void Area::FromJsonObject(const QJsonObject& js) {
 	rect_area_.setHeight(js["rect_height"].toDouble());
 }
 
+const QRectF& Area::GetRect() const {
+	return rect_area_;
+}
+

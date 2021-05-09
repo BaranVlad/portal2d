@@ -16,6 +16,7 @@ private:
 	QVector2D key_vector;
 
 	Box* box_taked = nullptr;
+	QLineF fire_line;
 public:
 	Player() = delete;
 	Player(Scene* scene);

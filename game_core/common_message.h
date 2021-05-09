@@ -1,33 +1,31 @@
-#ifndef PORTAL2D_MESSAGE_H_
-#define PORTAL2D_MESSAGE_H_
+#ifndef PORTAL2D_COMMON_MESSAGE_H_
+#define PORTAL2D_COMMON_MESSAGE_H_
 
-#include <QString>
-#include <QVector>
+#include <QVariant>
 
-#include <QJsonObject>
-#include <QJsonValue>
-#include <QJsonArray>
+enum class MessageType;
 
 class Message {
-protected:
+private:
 	QString dest_;
+	MessageType type_;
+	QVariantList params_;
 public:
-	enum Type { 
-		wall_map_message,
-	   	wall_map_add_message, 
-		wall_map_add_to_group_message 
-	};
+	Message();
+	Message(const QJsonObject& js);
+	Message(const QString& dest, MessageType type);
+	Message(const QString& dest, MessageType type, 
+											const QVariantList& params);
 
-	Message(const QString& dest);
 	const QString& GetDest() const;
+	const MessageType& GetType() const;
+	const QVariantList& GetParams() const;
 
-	static Message* GetMessage(Type type, const QString& dest,
-							const QVector<void*>& params);
+	void AddParam(const QVariant& param);
 
-	virtual ~Message() = default;
-
-	virtual void ToJsonObject(QJsonObject& js) const;
-	virtual void FromJsonObject(const QJsonObject& js);
+	void ToJsonObject(QJsonObject& js) const;
+	void FromJsonObject(const QJsonObject& js);
+	
 };
 
 #endif

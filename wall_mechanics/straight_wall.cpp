@@ -63,7 +63,7 @@ void StraightWall::DrawActive(QPainter* painter) const {
 
 void StraightWall::DrawInactive(QPainter* painter) const {
 	QPen pen = painter->pen();
-	pen.setWidth(8);
+	pen.setWidth(WALL_LINE_WIDTH);
 	pen.setColor(QColor(0, 0, 0, 100));	
 	pen.setStyle(Qt::DashLine);
 	painter->setPen(pen);
@@ -122,6 +122,7 @@ void StraightWall::OpenPortal(const QPointF& point,
 	portal->SetPosition(QVector2D(point));
 	portal->SetDirection(direction_);
 	portal->SetNormalVector(normal_vector_);
+	portal->SetWall(this);
 	scene_->AddGameObject(portal_name, portal);
 }
 
@@ -148,4 +149,33 @@ qreal StraightWall::GetHeight() const {
 		return len_;
 	}
 }
+
+void StraightWall::ToJsonObject(QJsonObject& js) const {
+	Wall::ToJsonObject(js);
+
+	js["direction"] = static_cast<int>(direction_);
+	js["len"] = len_;
+	
+	js["line.p1.x"] = line_.p1().x();
+	js["line.p1.y"] = line_.p1().y();
+
+	js["line.p2.x"] = line_.p2().x();
+	js["line.p2.y"] = line_.p2().y();
+
+}
+
+void StraightWall::FromJsonObject(const QJsonObject& js) {
+	Wall::FromJsonObject(js);
+
+	direction_ = static_cast<Direction>(js["direction"].toInt());
+	len_ = js["len"].toDouble();
+	line_.setP1(QPointF(js["line.p1.x"].toDouble(), 
+						js["line.p1.y"].toDouble()));
+	line_.setP2(QPointF(js["line.p2.x"].toDouble(), 
+						js["line.p2.y"].toDouble()));
+}
+
+StraightWall::StraightWall(Scene* scene) :
+	Wall(scene)
+{}
 

@@ -47,3 +47,25 @@ void Wall::SetPortable(bool value) {
 void Wall::CreatePortal() 
 {}
 
+void Wall::ToJsonObject(QJsonObject& js) const {
+	CollideObject::ToJsonObject(js);
+	
+	js["normal_vector_x"] = normal_vector_.x();
+	js["normal_vector_y"] = normal_vector_.y();
+	js["is_active"] = is_active_;
+	js["is_portable"] = is_portable_;
+}
+
+void Wall::FromJsonObject(const QJsonObject& js) {
+	CollideObject::FromJsonObject(js);
+
+	normal_vector_.setX(js["normal_vector_x"].toDouble());
+	normal_vector_.setY(js["normal_vector_y"].toDouble());
+	is_active_ = js["is_active"].toBool();
+	is_portable_ = js["is_portable"].toBool();
+}
+
+Wall::Wall(Scene* scene) :
+	CollideObject(scene)
+{}
+

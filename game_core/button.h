@@ -7,8 +7,8 @@
 
 class Button : public AreaObject {
 private:
-	Message* press_message_ = nullptr;
-	Message* release_message_ = nullptr;
+	Message* press_message_;
+	Message* release_message_;
 protected:
 	bool is_pressed_ = false;
 public:

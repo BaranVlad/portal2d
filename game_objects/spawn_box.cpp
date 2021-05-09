@@ -29,7 +29,9 @@ qreal SpawnBox::GetHeight() const {
 }
 
 void SpawnBox::TakeMessage(Message* message) {
-	CreateBox();
+	if (message->GetType() == MessageType::SpawnBox) {
+		CreateBox();
+	}
 }
 
 void SpawnBox::CreateBox() {

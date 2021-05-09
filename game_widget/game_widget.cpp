@@ -2,15 +2,14 @@
 
 #include "../wall_mechanics/straight_wall.h"
 #include "../wall_mechanics/wall_map.h"
-#include "../messages/wall_map_add_to_group_message.h"
-#include "../messages/wall_map_message.h"
-#include "../messages/spawn_box_message.h"
 #include "../game_objects/player.h"
 #include "../game_objects/floor_button.h"
 #include "../game_core/scene.h"
 #include "../game_core/camera.h"
 #include "../game_objects/box.h"
 #include "../game_objects/spawn_box.h"
+#include "../game_objects/finish_area.h"
+#include "../game_objects/press_button.h"
 
 #include <QVector>
 #include <QPushButton>
@@ -27,6 +26,11 @@ GameWidget::GameWidget(QWidget* parent) :
 	timer->start(1000 / FPS);
 
 	clock_.start();
+	scene_->SetPause(true);
+
+	WallMap* wall_map = new WallMap(scene_);
+	wall_map->SetPosition(0, 0);
+	scene_->AddGameObject("WallMap", wall_map);
 //	
 	StraightWall* wall = new StraightWall(scene_, Direction::Down, 700);
 	wall->SetPosition(200, 500);
@@ -40,19 +44,9 @@ GameWidget::GameWidget(QWidget* parent) :
 	wall2->SetPosition(200, 200);
 	wall2->SetPortable(true);
 
-	WallMap* wall_map = new WallMap(scene_);
-	wall_map->SetPosition(0, 0);
-	scene_->AddGameObject("WallMap", wall_map);
-
-	WallMapAddToGroupMessage* msg = new 
-		WallMapAddToGroupMessage("WallMap", "group1", wall);
-	WallMapAddToGroupMessage* msg1 = new 
-		WallMapAddToGroupMessage("WallMap", "group2", wall1);
-	WallMapAddToGroupMessage* msg4 = new 
-		WallMapAddToGroupMessage("WallMap", "group2", wall2);
-	scene_->SendTo(msg);
-	scene_->SendTo(msg1);
-	scene_->SendTo(msg4);
+	wall_map->AddWall(wall);
+	wall_map->AddWallToGroup("group1", wall1);
+	wall_map->AddWallToGroup("group1", wall2);
 
 	Player* player = new Player(scene_);
 	player->SetPosition(250, 200);
@@ -61,22 +55,43 @@ GameWidget::GameWidget(QWidget* parent) :
 	FloorButton* button = new FloorButton(scene_);	
 	button->SetPosition(300, 500 - BUTTON_HEIGHT);
 
-	SpawnBoxMessage* msg2 = new SpawnBoxMessage("spawn");
+	Message* msg2 = 
+		new Message("spawn", MessageType::SpawnBox);
+
 	button->SetPressMessage(msg2);
-	button->SetReleaseMessage(msg2);
 	
 	scene_->AddGameObject("Button", button);
 
 	SpawnBox* spawn = new SpawnBox(scene_);
 	scene_->AddGameObject("spawn", spawn);
 	spawn->SetPosition(400, 400);
+
+	FinishArea* finish = new FinishArea(scene_);
+	finish->SetPosition(600, 300);
+	scene_->AddGameObject("finish", finish);
+
+	PressButton* press_button = new PressButton(scene_);
+	press_button->SetCenter(700, 470);
+	scene_->AddGameObject("press", press_button);
+	press_button->SetPressMessage(
+			new Message("WallMap", MessageType::WallSwitch, {"group1"}));
+	press_button->SetTimer(3);
+
+	scene_->PostUpdate();
+	scene_->WriteToJson("level1.json");
+	scene_->Restart();
+}
+
+void GameWidget::StartGame(int level) {
+	scene_->SetPause(false);
+	QString file_name = QString("level%1.json").arg(level);
+	scene_->ReadFromJson(file_name);
 }
 
 void GameWidget::Update() {
 	scene_->Update(clock_.elapsed());
 	clock_.start();	
 	update();
-	scene_->WriteToJson("level1.json");
 }
 
 void GameWidget::paintEvent(QPaintEvent*) {

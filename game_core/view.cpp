@@ -43,3 +43,7 @@ void View::FromJsonObject(const QJsonObject& js) {
 	SetPosition(js["x"].toDouble(), js["y"].toDouble());
 }
 
+void View::SetCenter(qreal x, qreal y) {
+	SetCenter(QVector2D(x, y));
+}
+

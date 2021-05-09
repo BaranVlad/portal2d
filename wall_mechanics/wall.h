@@ -12,6 +12,7 @@ protected:
 	bool is_portable_;
 public:
 	Wall() = delete;
+	Wall(Scene* scene);
 	Wall(Scene* scene,
 		   	const QVector2D& normal_vector);
 
@@ -27,6 +28,9 @@ public:
 	virtual void DrawActive(QPainter* painter) const = 0;
 	virtual void DrawInactive(QPainter* painter) const = 0;
 	virtual void CreatePortal();
+
+	virtual void ToJsonObject(QJsonObject& js) const;
+	virtual void FromJsonObject(const QJsonObject& js);
 };
 
 #endif

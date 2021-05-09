@@ -17,6 +17,7 @@ private:
 	QLineF line_;
 public:
 	StraightWall() = delete;
+	StraightWall(Scene* scene);
 	StraightWall(Scene* scene, Direction dir, qreal len);
 
 	virtual void DrawActive(QPainter* painter) const;
@@ -33,6 +34,9 @@ public:
 
 	void DrawPortablePart(QPainter* painter) const;
 	void OpenPortal(const QPointF& point, const QString& name) const;
+
+	virtual void ToJsonObject(QJsonObject& js) const;
+	virtual void FromJsonObject(const QJsonObject& js);
 };
 
 #endif

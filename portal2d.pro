@@ -11,6 +11,8 @@ CONFIG += debug
 
 QMAKE_CXXFLAGS += -O0 -g -ggdb
 
+#QMAKE_CXXFLAGS += -save-temps
+
 # The following define makes your compiler warn you if you use any
 # feature of Qt which has been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -39,11 +41,6 @@ SOURCES += 	main.cpp \
 			wall_mechanics/wall.cpp \
 			wall_mechanics/wall_map.cpp \
 			\
-			messages/wall_map_message.cpp \
-			messages/wall_map_add_message.cpp \
-			messages/wall_map_add_to_group_message.cpp \
-			messages/spawn_box_message.cpp \
-			\
 			game_widget/game_widget.cpp \
 			\
 			game_objects/player.cpp \
@@ -52,6 +49,10 @@ SOURCES += 	main.cpp \
 			game_objects/portal.cpp \
 			game_objects/box.cpp \
 			game_objects/spawn_box.cpp \
+			game_objects/finish_area.cpp \
+			game_objects/press_button.cpp \
+			\
+			map_editor/editor_widget.cpp \
 			\
 
 HEADERS +=	game_core/game_object.h \
@@ -70,11 +71,6 @@ HEADERS +=	game_core/game_object.h \
 			wall_mechanics/wall.h \
 			wall_mechanics/wall_map.h \
 			\
-			messages/wall_map_message.h \
-			messages/wall_map_add_message.h \
-			messages/wall_map_add_to_group_message.h \
-			messages/spawn_box_message.h \
-			\
 			game_widget/game_widget.h \
 			\
 			game_objects/player.h \
@@ -83,6 +79,10 @@ HEADERS +=	game_core/game_object.h \
 			game_objects/portal.h \
 			game_objects/box.h \
 			game_objects/spawn_box.h \
+			game_objects/finish_area.h \
+			game_objects/press_button.h \
+			\
+			map_editor/editor_widget.h \
 			\
 
 RESOURCES = textures.qrc

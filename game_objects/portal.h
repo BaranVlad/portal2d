@@ -7,7 +7,7 @@
 
 class Portal : public AreaObject {
 private:
-	StraightWall* wall_;	
+	const StraightWall* wall_;	
 	QRectF portal_rect_;
 	
 	Direction direction_;
@@ -27,6 +27,7 @@ public:
 
 	void SetNormalVector(const QVector2D& vec);
 	QVector2D GetNormalVector() const;
+	void SetWall(const StraightWall* wall);
 };
 
 #endif

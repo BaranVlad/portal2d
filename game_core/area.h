@@ -31,6 +31,7 @@ public:
 
 	void SetRect(const QRectF& rect_area);
 	void MoveRect(const QVector2D& vec);
+	const QRectF& GetRect() const;
 	
 	virtual void ToJsonObject(QJsonObject& js) const;
 	virtual void FromJsonObject(const QJsonObject& js);

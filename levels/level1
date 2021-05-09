@@ -1,0 +1,85 @@
+[
+    {
+        "Areas": {
+            "Target": [
+                {
+                    "name": "Target",
+                    "rect_height": 10,
+                    "rect_width": 50,
+                    "rect_x": 0,
+                    "rect_y": 0
+                }
+            ]
+        },
+        "class": "FloorButton",
+        "name": "Button",
+        "press_message": {
+            "dest": "spawn",
+            "params": [
+            ],
+            "type": 1
+        },
+        "release_message": {
+            "dest": "",
+            "params": [
+            ],
+            "type": 2
+        },
+        "x": 300,
+        "y": 490
+    },
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "name": "Collider",
+                    "rect_height": 40,
+                    "rect_width": 20,
+                    "rect_x": 0,
+                    "rect_y": 0
+                }
+            ]
+        },
+        "class": "Player",
+        "name": "Player",
+        "x": 495.8990478515625,
+        "y": 457
+    },
+    {
+        "class": "WallMap",
+        "groups": {
+            "group1": [
+                {
+                    "direction": 1,
+                    "len": 700,
+                    "line.p1.x": 200,
+                    "line.p1.y": 500,
+                    "line.p2.x": 900,
+                    "line.p2.y": 500
+                },
+                {
+                    "direction": 3,
+                    "len": 100,
+                    "line.p1.x": 600,
+                    "line.p1.y": 400,
+                    "line.p2.x": 600,
+                    "line.p2.y": 500
+                },
+                {
+                    "direction": 0,
+                    "len": 700,
+                    "line.p1.x": 200,
+                    "line.p1.y": 200,
+                    "line.p2.x": 900,
+                    "line.p2.y": 200
+                }
+            ]
+        }
+    },
+    {
+        "class": "SpawnBox",
+        "name": "spawn",
+        "x": 400,
+        "y": 400
+    }
+]

@@ -1,6 +1,7 @@
 #include "portal.h"
 
 #include "../game_core/consts.h"
+#include "../game_core/scene.h"
 #include <QColor>
 
 
@@ -8,7 +9,11 @@ Portal::Portal(Scene* scene) :
 	AreaObject(scene)	
 {}
 
-void Portal::Update() {}
+void Portal::Update() {
+	if (!wall_->IsActive()) {
+		scene_->DeleteObject(GetName());
+	}
+}
 
 void Portal::Draw(QPainter* painter) const
 {
@@ -30,10 +35,10 @@ void Portal::Draw(QPainter* painter) const
 
 void Portal::SetDirection(Direction direction) {
 	if (direction == Direction::Up || direction == Direction::Down) {
-		portal_rect_.setRect(-PORTAL_FLOOR_LONG/2, -PORTAL_WIDE/2,
+		portal_rect_.setRect(-PORTAL_FLOOR_LONG/2., -PORTAL_WIDE/2.,
 										PORTAL_FLOOR_LONG, PORTAL_WIDE);
 	} else {
-		portal_rect_.setRect(-PORTAL_WIDE/2, -PORTAL_LONG/2,
+		portal_rect_.setRect(-PORTAL_WIDE/2., -PORTAL_LONG/2.,
 											PORTAL_WIDE, PORTAL_LONG);
 	}
 
@@ -70,5 +75,8 @@ qreal Portal::GetHeight() const {
 	}
 }
 
+void Portal::SetWall(const StraightWall* wall) {
+	wall_ = wall;
+}
 
 

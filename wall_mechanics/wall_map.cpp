@@ -4,9 +4,8 @@
 #include <QDebug>
 
 #include "../game_core/area.h"
-#include "../messages/wall_map_message.h"
-#include "../messages/wall_map_add_message.h"
-#include "../messages/wall_map_add_to_group_message.h"
+#include "../game_core/common_message.h"
+#include "straight_wall.h"
 
 WallMap::WallMap(Scene* scene) :
 	CollideObject(scene)
@@ -16,22 +15,8 @@ WallMap::WallMap(Scene* scene) :
 }
 
 void WallMap::TakeMessage(Message* msg) {
-	WallMapMessage* wall_msg = dynamic_cast<WallMapMessage*>(msg);
-	WallMapAddMessage* wall_add_msg = 
-							dynamic_cast<WallMapAddMessage*>(msg);
-	WallMapAddToGroupMessage* add_to_group_msg = 
-					dynamic_cast<WallMapAddToGroupMessage*>(msg);
-
-	if (wall_msg) {
-		SwitchGroup(wall_msg->GetGroupName());
-	} else if (wall_add_msg) {
-		AddWall(wall_add_msg->GetWall());
-	} else if (add_to_group_msg) {
-		QString group_name = add_to_group_msg->GetGroupName();
-		if (!IsGroupExist(group_name)) {
-			AddWallGroup(group_name);	
-		}
-		AddWallToGroup(group_name, add_to_group_msg->GetWall());
+	if (msg->GetType() == MessageType::WallSwitch) {
+		SwitchGroup(msg->GetParams()[0].toString());
 	}
 }
 
@@ -64,6 +49,7 @@ void WallMap::AddWallGroup(const QString& name) {
 }
 
 WallMap::~WallMap() {
+	ClearAll();
 	for (auto& vec : groups_.values()) {
 		for (Wall* wall : vec) {
 			delete wall;
@@ -100,4 +86,36 @@ qreal WallMap::GetWidth() const {
 qreal WallMap::GetHeight() const {
 	return 0;
 }
+
+void WallMap::ToJsonObject(QJsonObject& js) const {
+	View::ToJsonObject(js);
+
+	QJsonObject walls_obj;
+	for (QString& key : groups_.keys()) {
+		QJsonArray walls_array;
+		for (Wall* wall : groups_[key])  {
+			QJsonObject wall_obj;
+			wall->ToJsonObject(wall_obj);
+			walls_array.push_back(wall_obj);
+		}
+		walls_obj[key] = walls_array;
+	}
+	js["class"] = "WallMap";
+	js["groups"] = walls_obj;
+}
+
+void WallMap::FromJsonObject(const QJsonObject& js) {
+	View::FromJsonObject(js);
+
+	StraightWall* wall;
+	QJsonObject groups_obj = js["groups"].toObject();
+	for (QString& group_key : groups_obj.keys()) {
+		for (QJsonValueRef wall_val : groups_obj[group_key].toArray()) {
+			wall = new StraightWall(scene_);
+			wall->FromJsonObject(wall_val.toObject());
+			AddWallToGroup(group_key, wall);
+		}
+	}
+}
+
 

@@ -30,6 +30,9 @@ public:
 	void SwitchGroup(const QString& name);
 
 	virtual void TakeMessage(Message* msg);
+
+	virtual void ToJsonObject(QJsonObject& js) const;
+	virtual void FromJsonObject(const QJsonObject& js);
 };
 
 #endif

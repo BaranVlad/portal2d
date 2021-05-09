@@ -1,5 +1,7 @@
 #include "game_object.h"
 
+#include "common_message.h"
+
 GameObject::GameObject(Scene* scene) : scene_(scene) {}
 
 void GameObject::TakeMessage(Message* msg) 

@@ -13,6 +13,18 @@
         },
         "class": "FloorButton",
         "name": "Button",
+        "press_message": {
+            "dest": "spawn",
+            "params": [
+            ],
+            "type": 1
+        },
+        "release_message": {
+            "dest": "",
+            "params": [
+            ],
+            "type": 2
+        },
         "x": 300,
         "y": 490
     },
@@ -30,55 +42,92 @@
         },
         "class": "Player",
         "name": "Player",
-        "x": 503.884765625,
-        "y": 457
+        "x": 250,
+        "y": 200
     },
     {
-        "Areas": {
-            "Collider": [
-                {
-                    "name": "Collider",
-                    "rect_height": 6,
-                    "rect_width": 700,
-                    "rect_x": 0,
-                    "rect_y": -3
-                },
-                {
-                    "name": "Collider",
-                    "rect_height": 100,
-                    "rect_width": 6,
-                    "rect_x": -3,
-                    "rect_y": 0
-                },
-                {
-                    "name": "Collider",
-                    "rect_height": 6,
-                    "rect_width": 700,
-                    "rect_x": 0,
-                    "rect_y": -3
-                }
-            ],
+        "class": "WallMap",
+        "groups": {
             "Common": [
                 {
-                    "name": "Collider",
-                    "rect_height": 6,
-                    "rect_width": 700,
-                    "rect_x": 0,
-                    "rect_y": -3
+                    "Areas": {
+                        "Collider": [
+                            {
+                                "name": "Collider",
+                                "rect_height": 6,
+                                "rect_width": 700,
+                                "rect_x": 0,
+                                "rect_y": -3
+                            }
+                        ]
+                    },
+                    "direction": 1,
+                    "is_active": true,
+                    "is_portable": true,
+                    "len": 700,
+                    "line.p1.x": 100,
+                    "line.p1.y": 400,
+                    "line.p2.x": 800,
+                    "line.p2.y": 400,
+                    "name": "",
+                    "normal_vector_x": 0,
+                    "normal_vector_y": -1,
+                    "x": 200,
+                    "y": 500
+                }
+            ],
+            "group1": [
+                {
+                    "Areas": {
+                        "Collider": [
+                            {
+                                "name": "Collider",
+                                "rect_height": 100,
+                                "rect_width": 6,
+                                "rect_x": -3,
+                                "rect_y": 0
+                            }
+                        ]
+                    },
+                    "direction": 3,
+                    "is_active": true,
+                    "is_portable": true,
+                    "len": 100,
+                    "line.p1.x": 500,
+                    "line.p1.y": 300,
+                    "line.p2.x": 500,
+                    "line.p2.y": 400,
+                    "name": "",
+                    "normal_vector_x": -1,
+                    "normal_vector_y": 0,
+                    "x": 600,
+                    "y": 400
                 },
                 {
-                    "name": "Collider",
-                    "rect_height": 100,
-                    "rect_width": 6,
-                    "rect_x": -3,
-                    "rect_y": 0
-                },
-                {
-                    "name": "Collider",
-                    "rect_height": 6,
-                    "rect_width": 700,
-                    "rect_x": 0,
-                    "rect_y": -3
+                    "Areas": {
+                        "Collider": [
+                            {
+                                "name": "Collider",
+                                "rect_height": 6,
+                                "rect_width": 700,
+                                "rect_x": 0,
+                                "rect_y": -3
+                            }
+                        ]
+                    },
+                    "direction": 0,
+                    "is_active": true,
+                    "is_portable": true,
+                    "len": 700,
+                    "line.p1.x": 100,
+                    "line.p1.y": 100,
+                    "line.p2.x": 800,
+                    "line.p2.y": 100,
+                    "name": "",
+                    "normal_vector_x": 0,
+                    "normal_vector_y": 1,
+                    "x": 200,
+                    "y": 200
                 }
             ]
         },
@@ -88,57 +137,56 @@
     },
     {
         "Areas": {
-            "trigger": [
+            "Trigger": [
                 {
-                    "name": "trigger",
-                    "rect_height": 8,
-                    "rect_width": 25,
-                    "rect_x": -12,
-                    "rect_y": -4
+                    "name": "Trigger",
+                    "rect_height": 40,
+                    "rect_width": 40,
+                    "rect_x": 0,
+                    "rect_y": 0
                 }
             ]
         },
-        "name": "portal_blue",
-        "x": 478.9999694824219,
-        "y": 500
+        "class": "FinishArea",
+        "name": "finish",
+        "x": 600,
+        "y": 300
     },
     {
         "Areas": {
-            "trigger": [
+            "Target": [
                 {
-                    "name": "trigger",
-                    "rect_height": 8,
-                    "rect_width": 25,
-                    "rect_x": -12,
-                    "rect_y": -4
+                    "name": "Target",
+                    "rect_height": -58,
+                    "rect_width": -88,
+                    "rect_x": 100,
+                    "rect_y": 100
                 }
             ]
         },
-        "name": "portal_orange",
-        "x": 577.8406982421875,
-        "y": 500
+        "class": "PressButton",
+        "name": "press",
+        "press_message": {
+            "dest": "WallMap",
+            "params": [
+                "group1"
+            ],
+            "type": 0
+        },
+        "release_message": {
+            "dest": "",
+            "params": [
+            ],
+            "type": 2
+        },
+        "release_time": 3000,
+        "x": 694,
+        "y": 449
     },
     {
         "class": "SpawnBox",
         "name": "spawn",
         "x": 400,
         "y": 400
-    },
-    {
-        "Areas": {
-            "Collider": [
-                {
-                    "name": "Collider",
-                    "rect_height": 23,
-                    "rect_width": 23,
-                    "rect_x": 0,
-                    "rect_y": 0
-                }
-            ]
-        },
-        "class": "Box",
-        "name": "spawn_box",
-        "x": 526.3226318359375,
-        "y": 421.6026611328125
     }
 ]

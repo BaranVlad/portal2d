@@ -72,6 +72,7 @@ void AreaObject::FromJsonObject(const QJsonObject& js) {
 	View::FromJsonObject(js);
 	QJsonObject areas_map = js["Areas"].toObject();
 
+	ClearAll();
 	QJsonArray vec_obj;
 	Area* area;
 	for (QString& key : areas_map.keys()) {
@@ -81,5 +82,9 @@ void AreaObject::FromJsonObject(const QJsonObject& js) {
 			AddAreaToGroup(key, area);
 		}
 	}
+}
+
+void AreaObject::ClearAll() {
+	areas_.clear();
 }
 

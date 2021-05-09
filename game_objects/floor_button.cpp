@@ -59,6 +59,6 @@ void FloorButton::ToJsonObject(QJsonObject& js) const {
 }
 
 void FloorButton::FromJsonObject(const QJsonObject& js) {
-	Button::View::FromJsonObject(js);
+	Button::FromJsonObject(js);
 }
 

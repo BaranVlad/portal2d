@@ -8,9 +8,10 @@
 #include <QJsonValue>
 
 enum class Direction { Up, Down, Left, Right };
+enum class MessageType { WallSwitch, SpawnBox, Empty };
 
-class Scene;
 class Message;
+class Scene;
 /* It is the base class for all updateble classes that scene class contains */
 class GameObject {
 protected:

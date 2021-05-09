@@ -73,6 +73,7 @@ void Box::PlayerTake(Player* player) {
 void Box::PlayerRelease() {
 	player_taked->ReleaseBox();
 	player_taked = nullptr;
+	velocity_ = QVector2D(0, 0);
 }
 
 bool Box::PlayerReachable(Player* player) const {
