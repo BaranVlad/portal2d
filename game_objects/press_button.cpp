@@ -10,8 +10,8 @@
 PressButton::PressButton(Scene* scene) :
 	Button(scene) 
 {
-	QRectF press_rect(GetPosition().toPointF(), 
-						QPointF(GetWidth(), GetHeight()));
+	QRectF press_rect(0, 0, 
+						GetWidth(), GetHeight());
 	AddAreaToGroup("Target", press_rect);
 }
 
@@ -27,8 +27,11 @@ void PressButton::Update() {
 	QList<Area*> list =
 	   		scene_->GetIntersected(GetAreasViaGroupName("Target")[0]);
 	Player* player;
-	if (release_timer_.hasExpired(release_time_)) {
+	if (release_timer_.isValid() &&
+		   	release_timer_.hasExpired(release_time_)) 
+	{
 		is_pressed_ = false;
+		release_timer_.invalidate();
 		SendReleaseMessage();
 	}
 	for (Area* area : list) {

@@ -17,7 +17,6 @@ protected:
 	QElapsedTimer clock_;
 
 	virtual void Update();
-	void StartGame(int level);
 
 	void keyPressEvent(QKeyEvent*);
 	void keyReleaseEvent(QKeyEvent*);
@@ -30,6 +29,8 @@ protected:
 public:
 	GameWidget(QWidget* parent = nullptr);
 	~GameWidget();
+
+	void StartLevel(int level);
 };
 
 #endif

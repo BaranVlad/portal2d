@@ -8,7 +8,7 @@
 #include <QJsonValue>
 
 enum class Direction { Up, Down, Left, Right };
-enum class MessageType { WallSwitch, SpawnBox, Empty };
+enum class MessageType { WallSwitch, SpawnBox, Empty, WallPortable };
 
 class Message;
 class Scene;
@@ -16,6 +16,8 @@ class Scene;
 class GameObject {
 protected:
 	Scene* scene_;
+	int z_index = 0;
+
 	QString name_;
 public:
 	GameObject() = delete;
@@ -24,6 +26,7 @@ public:
 	virtual void Update() = 0;
 	virtual void ToJsonObject(QJsonObject& js) const;
 	virtual void FromJsonObject(const QJsonObject& js);
+	int GetZIndex() const;
 
 	Scene* GetScene() const;
 	void SetName(const QString& name);

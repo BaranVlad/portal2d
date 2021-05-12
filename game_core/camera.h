@@ -11,8 +11,8 @@ class Camera : public GameObject {
 private:
 	QPainter* painter_;	
 	
-	QPointF camera_point_;
-	qreal camera_scale_;
+	QSizeF source_size_ = QSizeF(800, 500);
+	QRectF current_rect_;
 	QRect window_rect_;
 public:
 	Camera() = delete;
@@ -33,6 +33,7 @@ public:
 	void ResizeBy(qreal d);
 
 	void resizeEvent(QResizeEvent* event);
+	qreal GetScale();
 };
 
 #endif

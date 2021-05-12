@@ -29,6 +29,8 @@ public:
 	void AddAreaToGroup(const QString& name, Area* area);
 	void ClearGroup(const QString& name);
 	void ClearAll();
+
+	void SetAreasActive(bool value);
  
 	virtual void ToJsonObject(QJsonObject& js) const;
 	virtual void FromJsonObject(const QJsonObject& js);

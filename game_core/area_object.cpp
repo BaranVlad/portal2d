@@ -88,3 +88,9 @@ void AreaObject::ClearAll() {
 	areas_.clear();
 }
 
+void AreaObject::SetAreasActive(bool value) {
+	for (Area* area : GetAreas()) {
+		area->SetActive(value);
+	}
+}
+

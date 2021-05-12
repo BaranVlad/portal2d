@@ -25,6 +25,8 @@ public:
 	void PlayerCollision(Player* player);
 	void SetDirection(Direction direction);
 
+	bool IsInPair();
+
 	void SetNormalVector(const QVector2D& vec);
 	QVector2D GetNormalVector() const;
 	void SetWall(const StraightWall* wall);

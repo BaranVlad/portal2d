@@ -309,6 +309,8 @@ void Area::ToJsonObject(QJsonObject& js) const {
 	js["rect_y"] = rect_area_.y();
 	js["rect_width"] = rect_area_.width();
 	js["rect_height"] = rect_area_.height();
+
+	js["is_active"] = is_active_;
 }
  
 void Area::FromJsonObject(const QJsonObject& js) {
@@ -317,6 +319,8 @@ void Area::FromJsonObject(const QJsonObject& js) {
 	rect_area_.setY(js["rect_y"].toDouble());
 	rect_area_.setWidth(js["rect_width"].toDouble());
 	rect_area_.setHeight(js["rect_height"].toDouble());
+
+	is_active_ = js["is_active"].toBool();
 }
 
 const QRectF& Area::GetRect() const {

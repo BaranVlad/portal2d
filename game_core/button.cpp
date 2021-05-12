@@ -8,6 +8,7 @@ Button::Button(Scene* scene) :
 	release_message_(new Message)
 {
 	AddGroup("Target");
+	z_index = -2;
 }
 
 Button::~Button() {

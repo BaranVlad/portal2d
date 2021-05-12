@@ -7,18 +7,20 @@
 #include "qnamespace.h"
 #include "view.h"
 #include "../wall_mechanics/straight_wall.h"
-#include "../wall_mechanics/wall_map.h"
 #include "../game_objects/box.h"
 #include "../game_objects/player.h"
 #include "../game_objects/spawn_box.h"
 #include "../game_objects/floor_button.h"
 #include "../game_objects/finish_area.h"
 #include "../game_objects/press_button.h"
+#include "../game_objects/portal.h"
 
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QJsonValue>
+
+#include <algorithm>
 
 Scene::Scene(QObject* parent) :
 	QObject(parent),
@@ -37,7 +39,13 @@ void Scene::Draw(QPainter* painter) const {
 	camera_->SetPainter(painter);
 	camera_->Update();
 
-	for (GameObject* object : objects.values()) {
+	QList<GameObject*> o_list = objects.values();
+	std::sort(o_list.begin(), o_list.end(), 
+		[](GameObject* g1, GameObject* g2){ 
+			return g1->GetZIndex() < g2->GetZIndex();	
+	});
+
+	for (GameObject* object : o_list) {
 		View* object_to_draw = dynamic_cast<View*>(object);
 		if (object_to_draw) {
 			object_to_draw->Draw(painter);
@@ -56,23 +64,13 @@ void Scene::Update(qreal delta_time) {
 	PostUpdate();
 }
 
-QList<Area*> Scene::GetIntersected(Area* area) {
-	QList<Area*> result;
-	for (GameObject* object : objects.values()) {
-		AreaObject* area_object = dynamic_cast<AreaObject*>(object);	
-		if (!area_object || area_object == area->GetAreaObject()) {
-			continue;
-		}
-		for (Area* game_area : area_object->GetAreas()) {
-			if (game_area->IsIntersects(*area)) {
-				result.push_back(game_area);
-			}
-		}
-	}
-	return result;
-}
+
 
 void Scene::ForceSend(Message* message) {
+	if (message->GetDest() == "Scene") {
+		TakeMessage(message);
+		return;
+	}
 	objects[message->GetDest()]->TakeMessage(message);
 }
 
@@ -87,10 +85,51 @@ void Scene::ForceAdd(GameObject* game_object) {
 	objects[name] = game_object;	
 }
 
+bool BoxPlayerCheck(Area* area1, Area* area2) {
+	Box* box = dynamic_cast<Box*>(area1->GetAreaObject());
+	if (!box) {
+		return false;
+	}
+	Player* player = box->GetPlayer();
+	if (!player) {
+		return false;
+	}
+	if (area2->GetAreaObject() == player) {
+		return true;
+	}
+	return false;
+}
+
+bool KinematicPortalCheck(Area* area1, Area* area2) {
+	KinematicBody* kin = 
+		dynamic_cast<KinematicBody*>(area1->GetAreaObject());
+	if (!kin) {
+		return false;
+	}
+	Portal* portal = dynamic_cast<Portal*>(area2->GetAreaObject());
+	if (!portal) {
+		return false;
+	}
+	if (portal->IsInPair()) {
+		return false;
+	}
+	return true;
+}
+
+#define COLLISION_FILTER(area1, area2, filter) \
+if (filter(area1, area2) ||  		\
+			filter(area2, area1))	\
+{									\
+	continue;						\
+}										
+
 bool Scene::GetMovableIntersects(Area* move_area, 
 		const QVector2D& velocity, QVector2D* offset, 
-							QList<Area*>& areas, Direction& direction) 
+		QList<Area*>& areas, Direction& direction) 
 {
+	if (!move_area->IsActive()) {
+		return false;
+	}
 	areas = GetIntersected(move_area);
 	QVector2D temp_offset;
 	Direction temp_direction;
@@ -100,6 +139,10 @@ bool Scene::GetMovableIntersects(Area* move_area,
 		if (area == move_area || !area->IsActive()) {
 			continue;
 		}
+
+		COLLISION_FILTER(move_area, area, BoxPlayerCheck);
+		COLLISION_FILTER(move_area, area, KinematicPortalCheck);
+
 		if (area->MovableIntersect(move_area, velocity,
 				   				&temp_offset, temp_direction)) 
 		{
@@ -107,7 +150,7 @@ bool Scene::GetMovableIntersects(Area* move_area,
 			if (dynamic_cast<CollideObject*>(area->GetAreaObject())) {
 				is_collide = true;
 				if (!has_offset ||
-					offset->lengthSquared() > temp_offset.lengthSquared()) 
+					offset->lengthSquared() > temp_offset.lengthSquared())
 				{
 					*offset = temp_offset;
 					direction = temp_direction;
@@ -117,6 +160,24 @@ bool Scene::GetMovableIntersects(Area* move_area,
 		}
 	}	
 	return is_collide;
+}
+
+QList<Area*> Scene::GetIntersected(Area* area) {
+	QList<Area*> result;
+	for (GameObject* object : objects.values()) {
+		AreaObject* area_object = dynamic_cast<AreaObject*>(object);	
+		if (!area_object || area_object == area->GetAreaObject()) {
+			continue;
+		}
+		for (Area* game_area : area_object->GetAreas()) {
+			COLLISION_FILTER(game_area, area, BoxPlayerCheck);
+			COLLISION_FILTER(game_area, area, KinematicPortalCheck);
+			if (game_area->IsIntersects(*area)) {
+				result.push_back(game_area);
+			}
+		}
+	}
+	return result;
 }
 
 QList<Area*> Scene::GetAllAreas() {
@@ -307,8 +368,15 @@ bool Scene::GetWallLineIntersect(const QLineF& line,
 }
 
 QList<Wall*> Scene::GetAllWalls() {
-	WallMap* wall_map = dynamic_cast<WallMap*>(objects["WallMap"]);
-	return wall_map->GetWalls();
+	QList<Wall*> walls;
+	Wall* wall;
+	for (GameObject* object : objects.values()) {
+		wall = dynamic_cast<Wall*>(object);
+		if (wall) {
+			walls.push_back(wall);
+		}
+	}
+	return walls;
 }
 
 void Scene::DeleteUpdate() {
@@ -346,16 +414,6 @@ void Scene::PostUpdate() {
 	AddUpdate();
 	MessageUpdate();
 	
-	if (IsKeyJustPressed(Qt::Key_U)) {
-		WriteToJson("level1.json");
-	}
-	if (IsKeyJustPressed(Qt::Key_L)) {
-		ReadFromJson("level1.json");
-	}
-	if (IsKeyJustPressed(Qt::Key_P)) {
-		SetPause(!IsPaused());
-	}
-
 	KeysUpdate();
 }
 
@@ -402,12 +460,12 @@ void Scene::ReadFromJson(const QString& file_name) {
 		QJsonObject game_obj = game_val.toObject();
 		QString class_type = game_obj["class"].toString();
 		READ_JSON_IF(Player);
-		READ_JSON_IF(WallMap);
 		READ_JSON_IF(SpawnBox);
 		READ_JSON_IF(FloorButton);
 		READ_JSON_IF(Box);
 		READ_JSON_IF(FinishArea);
 		READ_JSON_IF(PressButton);
+		READ_JSON_IF(StraightWall);
 		AddGameObject(game_object->GetName(), game_object);
 	}
 
@@ -449,15 +507,40 @@ bool Scene::IsPaused() const {
 }
 
 void Scene::DrawDebugInfo(QPainter* painter, View* view) const {
+	if (!is_draw_debug) {
+		return;
+	}
+
 	QVector2D pos = view->GetPosition();
 
 	painter->setPen(Qt::black);
 
-	painter->drawText(pos.x(), pos.y() - 20, 100, 20, 0, 
+	painter->drawText(pos.x(), pos.y() - 20, 200, 20, 0, 
 	QString("%1 %2 %3").arg(view->GetName()).arg(pos.x()).arg(pos.y()));
 }
 
 void Scene::SetDebugInfo(bool value) {
 	is_draw_debug = value;
+}
+
+void Scene::TakeMessage(Message* msg) {
+	if (msg->GetType() == MessageType::WallSwitch) {
+		for (const QVariant& variant : msg->GetParams()) {
+			StraightWall* wall = 
+				dynamic_cast<StraightWall*>(objects[variant.toString()]);
+			wall->SetActive(!wall->IsActive());
+		}
+	} else if (msg->GetType() == MessageType::WallPortable) {
+		for (const QVariant& variant : msg->GetParams()) {
+			StraightWall* wall = 
+				dynamic_cast<StraightWall*>(objects[variant.toString()]);
+			wall->SetPortable(!wall->IsPortable());
+		}
+	}
+}
+
+void Scene::RenameObject(const QString& name, const QString& new_name) {
+	objects[name]->SetName(new_name);
+	objects[new_name] = objects.take(name);
 }
 

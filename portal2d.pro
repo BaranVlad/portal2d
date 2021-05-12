@@ -39,7 +39,6 @@ SOURCES += 	main.cpp \
 			\
 			wall_mechanics/straight_wall.cpp \
 			wall_mechanics/wall.cpp \
-			wall_mechanics/wall_map.cpp \
 			\
 			game_widget/game_widget.cpp \
 			\
@@ -69,7 +68,6 @@ HEADERS +=	game_core/game_object.h \
 			\
 			wall_mechanics/straight_wall.h \
 			wall_mechanics/wall.h \
-			wall_mechanics/wall_map.h \
 			\
 			game_widget/game_widget.h \
 			\

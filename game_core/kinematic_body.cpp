@@ -106,8 +106,8 @@ void KinematicBody::Teleport(Portal* portal) {
 
 	SetCenter(another_portal->GetPosition());
 
-	Move(norm_vec.x() * (GetWidth() / 2 + PORTAL_WIDE / 2),
-		 norm_vec.y() * (GetHeight() / 2 + PORTAL_WIDE / 2));
+	Move(norm_vec.x() * (GetWidth() / 2. + PORTAL_WIDE / 2.),
+		 norm_vec.y() * (GetHeight() / 2. + PORTAL_WIDE / 2.));
 
 	SetVelocity(norm_vec * velocity_len);
 }

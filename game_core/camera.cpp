@@ -2,8 +2,7 @@
 
 Camera::Camera(Scene* scene) : 
 	GameObject(scene),
-	camera_point_(0, 0),
-	camera_scale_(1)
+	current_rect_(0, 0, source_size_.width(), source_size_.height())
 {}
 
 void Camera::SetPainter(QPainter* painter) {
@@ -12,32 +11,29 @@ void Camera::SetPainter(QPainter* painter) {
 }
 
 void Camera::Update() {
-	painter_->translate(-1 * camera_point_);
-	painter_->scale(camera_scale_, camera_scale_);
+	painter_->scale(GetScale(), GetScale());
+	painter_->translate(-1 * current_rect_.topLeft());
 
 	SetWindowRect(painter_->viewport());
 }
 
 void Camera::MoveBy(qreal dx, qreal dy) {
-	camera_point_ += QPointF(dx, dy);
+	current_rect_.moveTo(current_rect_.topLeft() + QPointF(dx, dy));
 }
 
 void Camera::MoveTo(qreal x, qreal y) {
-	camera_point_ = QPointF(x, y);
+	current_rect_.moveTo(QPointF(x, y));
 }
 
 void Camera::ResizeBy(qreal d) {
-	double w_height = window_rect_.height();
-	MoveBy(d * camera_scale_, d);
-	camera_scale_ = 
-		(w_height * camera_scale_) / (w_height - 2 * d * camera_scale_);
+	current_rect_.adjust(d, d, -d, -d);
 }
 
 QPointF Camera::PointToCurrent(const QPointF& point) {
 	QPointF new_point = point;
 
-	new_point /= camera_scale_;
-	new_point += camera_point_;
+	new_point /= GetScale();
+	new_point += current_rect_.topLeft();
 
 	return new_point;
 }
@@ -56,13 +52,11 @@ const QRect& Camera::GetWindowRect() {
 }
 
 void Camera::resizeEvent(QResizeEvent* event) {
-	qreal new_height = (double)event->size().height();
-	qreal old_height = (double)window_rect_.height();
-	if (old_height <= 0) {
-		return;
-	}
-	camera_scale_ = new_height * camera_scale_ / old_height;
-	window_rect_.setHeight(new_height);
+	window_rect_.setHeight(event->size().height());
 	window_rect_.setWidth(event->size().width());
+}
+
+qreal Camera::GetScale() {
+	return window_rect_.height() / current_rect_.height();
 }
 

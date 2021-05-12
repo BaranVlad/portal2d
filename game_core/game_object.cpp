@@ -29,3 +29,7 @@ const QString& GameObject::GetName() const {
 	return name_;
 }
 
+int GameObject::GetZIndex() const {
+	return z_index;
+}
+

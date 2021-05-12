@@ -20,32 +20,6 @@ QVector2D NormVectorFromDirection(Direction dir) {
 	return QVector2D(0, 0);
 }
 
-StraightWall::StraightWall(Scene* scene, Direction dir, qreal len) :
-	Wall(scene, NormVectorFromDirection(dir)),
-	direction_(dir),
-	len_(len)
-{
-	QRectF collide_rect;
-	if (dir == Direction::Down) {
-		collide_rect = QRectF(0, 0, len, WALL_LINE_WIDTH);	
-		collide_rect.moveTop(-WALL_LINE_WIDTH / 2);
-		line_ = QLineF(0, 0, len_, 0);
-	} else if (dir == Direction::Up) {
-		collide_rect = QRectF(0, -WALL_LINE_WIDTH, len, WALL_LINE_WIDTH);
-		collide_rect.moveBottom(WALL_LINE_WIDTH / 2);
-		line_ = QLineF(0, 0, len_, 0);
-	} else if (dir == Direction::Right) {
-		collide_rect = QRectF(0, 0, WALL_LINE_WIDTH, len);
-		collide_rect.moveLeft(-WALL_LINE_WIDTH / 2);
-		line_ = QLineF(0, 0, 0, len_);
-	} else if (dir == Direction::Left) {
-		collide_rect.moveRight(WALL_LINE_WIDTH / 2);
-		collide_rect = QRectF(-WALL_LINE_WIDTH, 0, WALL_LINE_WIDTH, len);
-		line_ = QLineF(0, 0, 0, len_);
-	}
-	AddAreaToGroup("Collider", collide_rect);
-}
-
 void StraightWall::Update() 
 {}
 
@@ -58,7 +32,7 @@ void StraightWall::DrawActive(QPainter* painter) const {
 	painter->setPen(pen);
 	painter->setBrush(Qt::black);
 
-	painter->drawLine(line_);
+	painter->drawLine(GetLine());
 }
 
 void StraightWall::DrawInactive(QPainter* painter) const {
@@ -68,38 +42,31 @@ void StraightWall::DrawInactive(QPainter* painter) const {
 	pen.setStyle(Qt::DashLine);
 	painter->setPen(pen);
 
-	painter->drawLine(line_);
-}
-
-void StraightWall::SetPosition(qreal x, qreal y) {
-	line_.translate(x - GetPosition().x(), y - GetPosition().y());
-	View::SetPosition(x, y);	
-}
-
-void StraightWall::SetPosition(const QVector2D& position) {
-	line_.translate((position - GetPosition()).toPointF());
-	View::SetPosition(position);	
+	painter->drawLine(GetLine());
 }
 
 void StraightWall::DrawPortablePart(QPainter* painter) const {
 	if (!is_portable_) {
+		int offset = 3;
  		painter->setBrush(Qt::gray);
 		painter->setPen(Qt::NoPen);
 		QRect paint_rect;
 		switch (direction_) {
 			case (Direction::Down):
-				paint_rect.setRect(0, 0, len_, WALL_PORTABLE_AREA_SIZE);
+				paint_rect.setRect(offset, 0, 
+						len_ - 2*offset, WALL_PORTABLE_AREA_SIZE);
 				break;
 			case (Direction::Up):
-				paint_rect.setRect(0, -WALL_PORTABLE_AREA_SIZE, 
-									len_, WALL_PORTABLE_AREA_SIZE);
+				paint_rect.setRect(offset, -WALL_PORTABLE_AREA_SIZE, 
+								len_ - 2*offset, WALL_PORTABLE_AREA_SIZE);
 				break;
 			case (Direction::Right):
-				paint_rect.setRect(0, 0, WALL_PORTABLE_AREA_SIZE, len_);
+				paint_rect.setRect(0, offset,
+					   	WALL_PORTABLE_AREA_SIZE, len_ - 2*offset);
 				break;
 			case (Direction::Left):
-				paint_rect.setRect(-WALL_PORTABLE_AREA_SIZE, 0,
-					   				WALL_PORTABLE_AREA_SIZE, len_);
+				paint_rect.setRect(-WALL_PORTABLE_AREA_SIZE, offset,
+					   			WALL_PORTABLE_AREA_SIZE, len_ - 2*offset);
 				break;
 		}
 		paint_rect.translate(GetPosition().toPoint());
@@ -127,7 +94,8 @@ void StraightWall::OpenPortal(const QPointF& point,
 }
 
 QLineF StraightWall::GetLine() const {
-	return line_;
+	return line_.translated(GetPosition().x(),
+			GetPosition().y());
 }
 
 qreal StraightWall::GetWidth() const {
@@ -156,26 +124,57 @@ void StraightWall::ToJsonObject(QJsonObject& js) const {
 	js["direction"] = static_cast<int>(direction_);
 	js["len"] = len_;
 	
-	js["line.p1.x"] = line_.p1().x();
-	js["line.p1.y"] = line_.p1().y();
-
-	js["line.p2.x"] = line_.p2().x();
-	js["line.p2.y"] = line_.p2().y();
-
+	js["class"] = "StraightWall";
 }
 
 void StraightWall::FromJsonObject(const QJsonObject& js) {
 	Wall::FromJsonObject(js);
 
-	direction_ = static_cast<Direction>(js["direction"].toInt());
-	len_ = js["len"].toDouble();
-	line_.setP1(QPointF(js["line.p1.x"].toDouble(), 
-						js["line.p1.y"].toDouble()));
-	line_.setP2(QPointF(js["line.p2.x"].toDouble(), 
-						js["line.p2.y"].toDouble()));
+	Direction direction = static_cast<Direction>(js["direction"].toInt());
+	qreal len = js["len"].toDouble();
+
+	SetDirectionAndLen(direction, len);
 }
 
 StraightWall::StraightWall(Scene* scene) :
 	Wall(scene)
-{}
+{
+	z_index = -1;
+	SetDirectionAndLen(Direction::Up, 100);
+}
+
+void StraightWall::SetDirectionAndLen(Direction dir, qreal len) {
+	QRectF collide_rect;
+	direction_ = dir;
+	len_ = len;
+	if (dir == Direction::Down) {
+		collide_rect = QRectF(0, 0, len, WALL_LINE_WIDTH);	
+		collide_rect.moveTop(-WALL_LINE_WIDTH / 2.);
+		line_ = QLineF(0, 0, len_, 0);
+	} else if (dir == Direction::Up) {
+		collide_rect = QRectF(0, -WALL_LINE_WIDTH, len, WALL_LINE_WIDTH);
+		collide_rect.moveBottom(WALL_LINE_WIDTH / 2.);
+		line_ = QLineF(0, 0, len_, 0);
+	} else if (dir == Direction::Right) {
+		collide_rect = QRectF(0, 0, WALL_LINE_WIDTH, len);
+		collide_rect.moveLeft(-WALL_LINE_WIDTH / 2.);
+		line_ = QLineF(0, 0, 0, len_);
+	} else if (dir == Direction::Left) {
+		collide_rect = QRectF(-WALL_LINE_WIDTH, 0, WALL_LINE_WIDTH, len);
+		collide_rect.moveRight(WALL_LINE_WIDTH / 2.);
+		line_ = QLineF(0, 0, 0, len_);
+	}
+	ClearAll();
+	SetNormalVector(NormVectorFromDirection(dir));
+	AddAreaToGroup("Collider", collide_rect);
+	SetAreasActive(IsActive());
+}
+
+Direction StraightWall::GetDirection() const {
+	return direction_;
+}
+
+qreal StraightWall::GetLen() const {
+	return len_;
+}
 

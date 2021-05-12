@@ -1,0 +1,827 @@
+[
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "is_active": true,
+                    "name": "Collider",
+                    "rect_height": 6,
+                    "rect_width": 50,
+                    "rect_x": 0,
+                    "rect_y": -3
+                }
+            ]
+        },
+        "class": "StraightWall",
+        "direction": 0,
+        "is_active": true,
+        "is_portable": false,
+        "len": 50,
+        "name": "b_wall1",
+        "normal_vector_x": 0,
+        "normal_vector_y": 1,
+        "x": 500,
+        "y": 200
+    },
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "is_active": true,
+                    "name": "Collider",
+                    "rect_height": 100,
+                    "rect_width": 6,
+                    "rect_x": -3,
+                    "rect_y": 0
+                }
+            ]
+        },
+        "class": "StraightWall",
+        "direction": 2,
+        "is_active": true,
+        "is_portable": false,
+        "len": 100,
+        "name": "b_wall2",
+        "normal_vector_x": 1,
+        "normal_vector_y": 0,
+        "x": 500,
+        "y": 200
+    },
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "is_active": true,
+                    "name": "Collider",
+                    "rect_height": 6,
+                    "rect_width": 50,
+                    "rect_x": 0,
+                    "rect_y": -3
+                }
+            ]
+        },
+        "class": "StraightWall",
+        "direction": 1,
+        "is_active": true,
+        "is_portable": false,
+        "len": 50,
+        "name": "b_wall3",
+        "normal_vector_x": 0,
+        "normal_vector_y": -1,
+        "x": 500,
+        "y": 300
+    },
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "is_active": true,
+                    "name": "Collider",
+                    "rect_height": 60,
+                    "rect_width": 6,
+                    "rect_x": -3,
+                    "rect_y": 0
+                }
+            ]
+        },
+        "class": "StraightWall",
+        "direction": 2,
+        "is_active": true,
+        "is_portable": false,
+        "len": 60,
+        "name": "box_wall1",
+        "normal_vector_x": 1,
+        "normal_vector_y": 0,
+        "x": 70,
+        "y": 440
+    },
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "is_active": true,
+                    "name": "Collider",
+                    "rect_height": 6,
+                    "rect_width": 70,
+                    "rect_x": 0,
+                    "rect_y": -3
+                }
+            ]
+        },
+        "class": "StraightWall",
+        "direction": 1,
+        "is_active": true,
+        "is_portable": false,
+        "len": 70,
+        "name": "box_wall2",
+        "normal_vector_x": 0,
+        "normal_vector_y": -1,
+        "x": 0,
+        "y": 440
+    },
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "is_active": true,
+                    "name": "Collider",
+                    "rect_height": 6,
+                    "rect_width": 100,
+                    "rect_x": 0,
+                    "rect_y": -3
+                }
+            ]
+        },
+        "class": "StraightWall",
+        "direction": 1,
+        "is_active": true,
+        "is_portable": false,
+        "len": 100,
+        "name": "but_wall",
+        "normal_vector_x": 0,
+        "normal_vector_y": -1,
+        "x": 200,
+        "y": 100
+    },
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "is_active": true,
+                    "name": "Collider",
+                    "rect_height": 100,
+                    "rect_width": 6,
+                    "rect_x": -3,
+                    "rect_y": 0
+                }
+            ]
+        },
+        "class": "StraightWall",
+        "direction": 3,
+        "is_active": true,
+        "is_portable": false,
+        "len": 100,
+        "name": "f_wall1",
+        "normal_vector_x": -1,
+        "normal_vector_y": 0,
+        "x": 1000,
+        "y": 400
+    },
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "is_active": true,
+                    "name": "Collider",
+                    "rect_height": 6,
+                    "rect_width": 100,
+                    "rect_x": 0,
+                    "rect_y": -3
+                }
+            ]
+        },
+        "class": "StraightWall",
+        "direction": 1,
+        "is_active": true,
+        "is_portable": false,
+        "len": 100,
+        "name": "f_wall2",
+        "normal_vector_x": 0,
+        "normal_vector_y": -1,
+        "x": 1000,
+        "y": 400
+    },
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "is_active": true,
+                    "name": "Collider",
+                    "rect_height": 100,
+                    "rect_width": 6,
+                    "rect_x": -3,
+                    "rect_y": 0
+                }
+            ]
+        },
+        "class": "StraightWall",
+        "direction": 3,
+        "is_active": true,
+        "is_portable": false,
+        "len": 100,
+        "name": "f_wall3",
+        "normal_vector_x": -1,
+        "normal_vector_y": 0,
+        "x": 1100,
+        "y": 300
+    },
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "is_active": true,
+                    "name": "Collider",
+                    "rect_height": 6,
+                    "rect_width": 100,
+                    "rect_x": 0,
+                    "rect_y": -3
+                }
+            ]
+        },
+        "class": "StraightWall",
+        "direction": 0,
+        "is_active": true,
+        "is_portable": false,
+        "len": 100,
+        "name": "f_wall4",
+        "normal_vector_x": 0,
+        "normal_vector_y": 1,
+        "x": 1000,
+        "y": 300
+    },
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "is_active": true,
+                    "name": "Collider",
+                    "rect_height": 300,
+                    "rect_width": 6,
+                    "rect_x": -3,
+                    "rect_y": 0
+                }
+            ]
+        },
+        "class": "StraightWall",
+        "direction": 3,
+        "is_active": true,
+        "is_portable": true,
+        "len": 300,
+        "name": "f_wall5",
+        "normal_vector_x": -1,
+        "normal_vector_y": 0,
+        "x": 1000,
+        "y": 0
+    },
+    {
+        "Areas": {
+            "Trigger": [
+                {
+                    "is_active": true,
+                    "name": "Trigger",
+                    "rect_height": 40,
+                    "rect_width": 40,
+                    "rect_x": 0,
+                    "rect_y": 0
+                }
+            ]
+        },
+        "class": "FinishArea",
+        "name": "finish",
+        "x": 1030,
+        "y": 330
+    },
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "is_active": true,
+                    "name": "Collider",
+                    "rect_height": 100,
+                    "rect_width": 6,
+                    "rect_x": -3,
+                    "rect_y": 0
+                }
+            ]
+        },
+        "class": "StraightWall",
+        "direction": 3,
+        "is_active": true,
+        "is_portable": false,
+        "len": 100,
+        "name": "finish_wall",
+        "normal_vector_x": -1,
+        "normal_vector_y": 0,
+        "x": 1000,
+        "y": 300
+    },
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "is_active": true,
+                    "name": "Collider",
+                    "rect_height": 6,
+                    "rect_width": 380,
+                    "rect_x": 0,
+                    "rect_y": -3
+                }
+            ]
+        },
+        "class": "StraightWall",
+        "direction": 1,
+        "is_active": true,
+        "is_portable": true,
+        "len": 380,
+        "name": "floor",
+        "normal_vector_x": 0,
+        "normal_vector_y": -1,
+        "x": 70,
+        "y": 500
+    },
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "is_active": true,
+                    "name": "Collider",
+                    "rect_height": 6,
+                    "rect_width": 100,
+                    "rect_x": 0,
+                    "rect_y": -3
+                }
+            ]
+        },
+        "class": "StraightWall",
+        "direction": 1,
+        "is_active": true,
+        "is_portable": true,
+        "len": 100,
+        "name": "floor2",
+        "normal_vector_x": 0,
+        "normal_vector_y": -1,
+        "x": 550,
+        "y": 500
+    },
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "is_active": true,
+                    "name": "Collider",
+                    "rect_height": 6,
+                    "rect_width": 350,
+                    "rect_x": 0,
+                    "rect_y": -3
+                }
+            ]
+        },
+        "class": "StraightWall",
+        "direction": 1,
+        "is_active": true,
+        "is_portable": false,
+        "len": 350,
+        "name": "floor3",
+        "normal_vector_x": 0,
+        "normal_vector_y": -1,
+        "x": 650,
+        "y": 500
+    },
+    {
+        "Areas": {
+            "Target": [
+                {
+                    "is_active": true,
+                    "name": "Target",
+                    "rect_height": 10,
+                    "rect_width": 50,
+                    "rect_x": 0,
+                    "rect_y": 0
+                }
+            ]
+        },
+        "class": "FloorButton",
+        "name": "floor_button1",
+        "press_message": {
+            "dest": "Scene",
+            "params": [
+                "up1"
+            ],
+            "type": 3
+        },
+        "release_message": {
+            "dest": "Scene",
+            "params": [
+                "up1"
+            ],
+            "type": 3
+        },
+        "x": 15,
+        "y": 430
+    },
+    {
+        "Areas": {
+            "Target": [
+                {
+                    "is_active": true,
+                    "name": "Target",
+                    "rect_height": 10,
+                    "rect_width": 50,
+                    "rect_x": 0,
+                    "rect_y": 0
+                }
+            ]
+        },
+        "class": "FloorButton",
+        "name": "floor_button2",
+        "press_message": {
+            "dest": "Scene",
+            "params": [
+                "left",
+                "up3",
+                "f_wall5"
+            ],
+            "type": 3
+        },
+        "release_message": {
+            "dest": "Scene",
+            "params": [
+                "left",
+                "up3",
+                "f_wall5"
+            ],
+            "type": 3
+        },
+        "x": 225,
+        "y": 90
+    },
+    {
+        "Areas": {
+            "Target": [
+                {
+                    "is_active": true,
+                    "name": "Target",
+                    "rect_height": 10,
+                    "rect_width": 50,
+                    "rect_x": 0,
+                    "rect_y": 0
+                }
+            ]
+        },
+        "class": "FloorButton",
+        "name": "floor_button3",
+        "press_message": {
+            "dest": "Scene",
+            "params": [
+                "f_wall5",
+                "finish_wall",
+                "stop_wall"
+            ],
+            "type": 0
+        },
+        "release_message": {
+            "dest": "Scene",
+            "params": [
+                "f_wall5",
+                "finish_wall",
+                "stop_wall"
+            ],
+            "type": 0
+        },
+        "x": 502,
+        "y": 290
+    },
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "is_active": true,
+                    "name": "Collider",
+                    "rect_height": 100,
+                    "rect_width": 6,
+                    "rect_x": -3,
+                    "rect_y": 0
+                }
+            ]
+        },
+        "class": "StraightWall",
+        "direction": 2,
+        "is_active": true,
+        "is_portable": false,
+        "len": 100,
+        "name": "left",
+        "normal_vector_x": 1,
+        "normal_vector_y": 0,
+        "x": 0,
+        "y": 0
+    },
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "is_active": true,
+                    "name": "Collider",
+                    "rect_height": 340,
+                    "rect_width": 6,
+                    "rect_x": -3,
+                    "rect_y": 0
+                }
+            ]
+        },
+        "class": "StraightWall",
+        "direction": 2,
+        "is_active": true,
+        "is_portable": false,
+        "len": 340,
+        "name": "left1",
+        "normal_vector_x": 1,
+        "normal_vector_y": 0,
+        "x": 0,
+        "y": 100
+    },
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "is_active": true,
+                    "name": "Collider",
+                    "rect_height": 40,
+                    "rect_width": 20,
+                    "rect_x": 0,
+                    "rect_y": 0
+                }
+            ]
+        },
+        "class": "Player",
+        "name": "player",
+        "x": 300,
+        "y": 450
+    },
+    {
+        "Areas": {
+            "Target": [
+                {
+                    "is_active": true,
+                    "name": "Target",
+                    "rect_height": 42,
+                    "rect_width": 12,
+                    "rect_x": 0,
+                    "rect_y": 0
+                }
+            ]
+        },
+        "class": "PressButton",
+        "name": "press_spawn_box",
+        "press_message": {
+            "dest": "spawn_box",
+            "params": [
+            ],
+            "type": 1
+        },
+        "release_message": {
+            "dest": "",
+            "params": [
+            ],
+            "type": 2
+        },
+        "release_time": -1,
+        "x": 380,
+        "y": 455
+    },
+    {
+        "class": "SpawnBox",
+        "name": "spawn_box",
+        "x": 330,
+        "y": 400
+    },
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "is_active": true,
+                    "name": "Collider",
+                    "rect_height": 6,
+                    "rect_width": 150,
+                    "rect_x": 0,
+                    "rect_y": -3
+                }
+            ]
+        },
+        "class": "StraightWall",
+        "direction": 1,
+        "is_active": true,
+        "is_portable": false,
+        "len": 150,
+        "name": "stop_wall",
+        "normal_vector_x": 0,
+        "normal_vector_y": -1,
+        "x": 550,
+        "y": 100
+    },
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "is_active": true,
+                    "name": "Collider",
+                    "rect_height": 6,
+                    "rect_width": 200,
+                    "rect_x": 0,
+                    "rect_y": -3
+                }
+            ]
+        },
+        "class": "StraightWall",
+        "direction": 0,
+        "is_active": true,
+        "is_portable": false,
+        "len": 200,
+        "name": "up",
+        "normal_vector_x": 0,
+        "normal_vector_y": 1,
+        "x": 0,
+        "y": 0
+    },
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "is_active": true,
+                    "name": "Collider",
+                    "rect_height": 6,
+                    "rect_width": 100,
+                    "rect_x": 0,
+                    "rect_y": -3
+                }
+            ]
+        },
+        "class": "StraightWall",
+        "direction": 0,
+        "is_active": true,
+        "is_portable": false,
+        "len": 100,
+        "name": "up1",
+        "normal_vector_x": 0,
+        "normal_vector_y": 1,
+        "x": 200,
+        "y": 0
+    },
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "is_active": true,
+                    "name": "Collider",
+                    "rect_height": 6,
+                    "rect_width": 150,
+                    "rect_x": 0,
+                    "rect_y": -3
+                }
+            ]
+        },
+        "class": "StraightWall",
+        "direction": 0,
+        "is_active": true,
+        "is_portable": false,
+        "len": 150,
+        "name": "up2",
+        "normal_vector_x": 0,
+        "normal_vector_y": 1,
+        "x": 300,
+        "y": 0
+    },
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "is_active": true,
+                    "name": "Collider",
+                    "rect_height": 6,
+                    "rect_width": 100,
+                    "rect_x": 0,
+                    "rect_y": -3
+                }
+            ]
+        },
+        "class": "StraightWall",
+        "direction": 0,
+        "is_active": true,
+        "is_portable": false,
+        "len": 100,
+        "name": "up3",
+        "normal_vector_x": 0,
+        "normal_vector_y": 1,
+        "x": 450,
+        "y": 0
+    },
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "is_active": true,
+                    "name": "Collider",
+                    "rect_height": 6,
+                    "rect_width": 450,
+                    "rect_x": 0,
+                    "rect_y": -3
+                }
+            ]
+        },
+        "class": "StraightWall",
+        "direction": 0,
+        "is_active": true,
+        "is_portable": false,
+        "len": 450,
+        "name": "up4",
+        "normal_vector_x": 0,
+        "normal_vector_y": 1,
+        "x": 550,
+        "y": 0
+    },
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "is_active": true,
+                    "name": "Collider",
+                    "rect_height": 400,
+                    "rect_width": 6,
+                    "rect_x": -3,
+                    "rect_y": 0
+                }
+            ]
+        },
+        "class": "StraightWall",
+        "direction": 3,
+        "is_active": true,
+        "is_portable": false,
+        "len": 400,
+        "name": "v_wall1",
+        "normal_vector_x": -1,
+        "normal_vector_y": 0,
+        "x": 450,
+        "y": 100
+    },
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "is_active": true,
+                    "name": "Collider",
+                    "rect_height": 6,
+                    "rect_width": 100,
+                    "rect_x": 0,
+                    "rect_y": -3
+                }
+            ]
+        },
+        "class": "StraightWall",
+        "direction": 1,
+        "is_active": true,
+        "is_portable": false,
+        "len": 100,
+        "name": "v_wall2",
+        "normal_vector_x": 0,
+        "normal_vector_y": -1,
+        "x": 450,
+        "y": 100
+    },
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "is_active": true,
+                    "name": "Collider",
+                    "rect_height": 100,
+                    "rect_width": 6,
+                    "rect_x": -3,
+                    "rect_y": 0
+                }
+            ]
+        },
+        "class": "StraightWall",
+        "direction": 2,
+        "is_active": true,
+        "is_portable": true,
+        "len": 100,
+        "name": "v_wall3",
+        "normal_vector_x": 1,
+        "normal_vector_y": 0,
+        "x": 550,
+        "y": 100
+    },
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "is_active": true,
+                    "name": "Collider",
+                    "rect_height": 200,
+                    "rect_width": 6,
+                    "rect_x": -3,
+                    "rect_y": 0
+                }
+            ]
+        },
+        "class": "StraightWall",
+        "direction": 2,
+        "is_active": true,
+        "is_portable": false,
+        "len": 200,
+        "name": "v_wall4",
+        "normal_vector_x": 1,
+        "normal_vector_y": 0,
+        "x": 550,
+        "y": 300
+    }
+]

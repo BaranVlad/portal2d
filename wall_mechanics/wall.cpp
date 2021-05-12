@@ -1,13 +1,7 @@
 #include "wall.h"
 
 #include "../game_core/area.h"
-
-Wall::Wall(Scene* scene, const QVector2D& normal_vector) :
-	CollideObject(scene),
-	normal_vector_(normal_vector),
-	is_active_(true),
-	is_portable_(false)
-{}
+#include <QDebug>
 
 bool Wall::IsActive() const {
 	return is_active_;
@@ -15,9 +9,7 @@ bool Wall::IsActive() const {
 
 void Wall::SetActive(bool value) {
 	is_active_ = value;
-	for (Area* area : GetAreas()) {
-		area->SetActive(value);
-	}
+	SetAreasActive(value);
 }
 
 void Wall::Draw(QPainter* painter) const {
@@ -28,12 +20,8 @@ void Wall::Draw(QPainter* painter) const {
 	}
 }
 
-void Wall::ChangeState() {
-	if (is_active_) {
-		SetActive(false);
-	} else {
-		SetActive(true);
-	}
+void Wall::ChangeActive() {
+	SetActive(!IsActive());
 }
 
 bool Wall::IsPortable() const {
@@ -61,11 +49,18 @@ void Wall::FromJsonObject(const QJsonObject& js) {
 
 	normal_vector_.setX(js["normal_vector_x"].toDouble());
 	normal_vector_.setY(js["normal_vector_y"].toDouble());
-	is_active_ = js["is_active"].toBool();
+	SetActive(js["is_active"].toBool());
 	is_portable_ = js["is_portable"].toBool();
 }
 
 Wall::Wall(Scene* scene) :
-	CollideObject(scene)
-{}
+	CollideObject(scene),
+	is_portable_(false)
+{
+	SetActive(true);
+}
+
+void Wall::SetNormalVector(const QVector2D& normal_vec) {
+	normal_vector_ = normal_vec;
+}
 

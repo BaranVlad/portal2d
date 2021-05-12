@@ -10,7 +10,7 @@ Portal::Portal(Scene* scene) :
 {}
 
 void Portal::Update() {
-	if (!wall_->IsActive()) {
+	if (!wall_->IsActive() || !wall_->IsPortable()) {
 		scene_->DeleteObject(GetName());
 	}
 }
@@ -79,4 +79,11 @@ void Portal::SetWall(const StraightWall* wall) {
 	wall_ = wall;
 }
 
+bool Portal::IsInPair() {
+	if (GetName() == "portal_blue") {
+		return scene_->IsOnScene("portal_orange");
+	} else if (GetName() == "portal_orange") {
+		return scene_->IsOnScene("portal_blue");
+	}
+}
 

@@ -1,7 +1,6 @@
 #include "game_widget.h"
 
 #include "../wall_mechanics/straight_wall.h"
-#include "../wall_mechanics/wall_map.h"
 #include "../game_objects/player.h"
 #include "../game_objects/floor_button.h"
 #include "../game_core/scene.h"
@@ -26,27 +25,25 @@ GameWidget::GameWidget(QWidget* parent) :
 	timer->start(1000 / FPS);
 
 	clock_.start();
-	scene_->SetPause(true);
-
-	WallMap* wall_map = new WallMap(scene_);
-	wall_map->SetPosition(0, 0);
-	scene_->AddGameObject("WallMap", wall_map);
 //	
-	StraightWall* wall = new StraightWall(scene_, Direction::Down, 700);
+/*	StraightWall* wall = new StraightWall(scene_);
+	wall->SetDirectionAndLen(Direction::Down, 700);
 	wall->SetPosition(200, 500);
 	wall->SetPortable(true);
 
-	StraightWall* wall1 = new StraightWall(scene_, Direction::Right, 100);
+	StraightWall* wall1 = new StraightWall(scene_);
+	wall1->SetDirectionAndLen(Direction::Right, 100);
 	wall1->SetPosition(600, 400);
 	wall1->SetPortable(true);
 
-	StraightWall* wall2 = new StraightWall(scene_, Direction::Up, 700);
+	StraightWall* wall2 = new StraightWall(scene_);
+	wall2->SetDirectionAndLen(Direction::Up, 700);
 	wall2->SetPosition(200, 200);
 	wall2->SetPortable(true);
 
-	wall_map->AddWall(wall);
-	wall_map->AddWallToGroup("group1", wall1);
-	wall_map->AddWallToGroup("group1", wall2);
+	scene_->AddGameObject("wall1", wall);
+	scene_->AddGameObject("wall2", wall1);
+	scene_->AddGameObject("wall3", wall2);
 
 	Player* player = new Player(scene_);
 	player->SetPosition(250, 200);
@@ -74,15 +71,15 @@ GameWidget::GameWidget(QWidget* parent) :
 	press_button->SetCenter(700, 470);
 	scene_->AddGameObject("press", press_button);
 	press_button->SetPressMessage(
-			new Message("WallMap", MessageType::WallSwitch, {"group1"}));
+			new Message("Scene", MessageType::WallSwitch, {"wall1"}));
 	press_button->SetTimer(3);
 
 	scene_->PostUpdate();
 	scene_->WriteToJson("level1.json");
-	scene_->Restart();
+	scene_->Restart();*/
 }
 
-void GameWidget::StartGame(int level) {
+void GameWidget::StartLevel(int level) {
 	scene_->SetPause(false);
 	QString file_name = QString("level%1.json").arg(level);
 	scene_->ReadFromJson(file_name);

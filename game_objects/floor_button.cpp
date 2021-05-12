@@ -22,7 +22,6 @@ void FloorButton::Update() {
 		if (dynamic_cast<Player*>(area->GetAreaObject()) ||
 			dynamic_cast<Box*>(area->GetAreaObject())) 
 		{
-			qDebug() << "pressed!";
 			if (!is_pressed_) {
 				SendPressMessage();
 			}

@@ -19,7 +19,6 @@ enum class Direction;
 class Camera;
 class Box;
 
-
 /* This class contains all objects in game,
  * and provide their updating and drawing */
 class Scene : public QObject {
@@ -44,7 +43,7 @@ protected:
 
 	QPixmap background;
 	bool is_paused = false;
-	bool is_draw_debug = false;
+	bool is_draw_debug = true;
 
 	void ForceDelete(const QString& name);
 	void ForceAdd(GameObject* game_object);
@@ -60,6 +59,8 @@ public:
 	void MessageUpdate();
 	void Restart();
 	void DrawDebugInfo(QPainter* painter, View* view) const;
+
+	void TakeMessage(Message* msg);
 
 	void Draw(QPainter* painter) const;
 	void Update(qreal delta_time);
@@ -110,6 +111,7 @@ public:
 	bool IsPaused() const;
 
 	void SetDebugInfo(bool value);
+	void RenameObject(const QString& name, const QString& new_name);
 };
 
 #endif

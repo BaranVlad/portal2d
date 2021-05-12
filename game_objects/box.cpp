@@ -3,7 +3,6 @@
 #include "../game_core/scene.h"
 #include "portal.h"
 
-
 Box::Box(Scene* scene) :
 	KinematicBody(scene)
 {
@@ -121,5 +120,9 @@ Box::~Box() {
 	if (player_taked) {
 		player_taked->ReleaseBox();
 	}
+}
+
+Player* Box::GetPlayer() {
+	return player_taked;
 }
 

@@ -24,6 +24,7 @@ public:
 	void PlayerTake(Player* player);
 	void PlayerRelease();
 	void BoxTakedUpdate();	
+	Player* GetPlayer();
 	bool PlayerReachable(Player* player) const;
 
 	virtual void ToJsonObject(QJsonObject& js) const;

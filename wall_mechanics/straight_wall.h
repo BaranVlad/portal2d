@@ -18,7 +18,6 @@ private:
 public:
 	StraightWall() = delete;
 	StraightWall(Scene* scene);
-	StraightWall(Scene* scene, Direction dir, qreal len);
 
 	virtual void DrawActive(QPainter* painter) const;
 	virtual void DrawInactive(QPainter* painter) const;
@@ -27,10 +26,11 @@ public:
 	virtual qreal GetWidth() const;
 	virtual qreal GetHeight() const;
 
-	virtual void SetPosition(qreal x, qreal y);
-	virtual void SetPosition(const QVector2D& position);
+	void SetDirectionAndLen(Direction direction, qreal len);
 
 	QLineF GetLine() const;
+	Direction GetDirection() const;
+	qreal GetLen() const;
 
 	void DrawPortablePart(QPainter* painter) const;
 	void OpenPortal(const QPointF& point, const QString& name) const;

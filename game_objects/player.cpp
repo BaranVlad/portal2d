@@ -121,6 +121,7 @@ void Player::CollisionUpdate(const QList<Area*>& list) {
 	FinishArea* finish = nullptr;
 	for (Area* area : list) {
 		AreaObject* area_object = area->GetAreaObject();
+		qDebug() << area->GetAreaObject()->GetName();
 		if (portal = dynamic_cast<Portal*>(area_object)) {
 			Teleport(portal);
 			is_on_floor_ = false;
