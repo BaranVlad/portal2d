@@ -15,6 +15,9 @@ private:
 	Direction direction_;
 	qreal len_;
 	QLineF line_;
+
+	qreal first_bound;
+	qreal second_bound;
 public:
 	StraightWall() = delete;
 	StraightWall(Scene* scene);
@@ -27,6 +30,7 @@ public:
 	virtual qreal GetHeight() const;
 
 	void SetDirectionAndLen(Direction direction, qreal len);
+	QVector2D GetPortalPoint(const QVector2D& point) const;
 
 	QLineF GetLine() const;
 	Direction GetDirection() const;

@@ -86,7 +86,8 @@ void StraightWall::OpenPortal(const QPointF& point,
 	}
 	
 	Portal* portal = new Portal(scene_);
-	portal->SetPosition(QVector2D(point));
+	portal->SetPosition(GetPortalPoint(QVector2D(point)));
+	
 	portal->SetDirection(direction_);
 	portal->SetNormalVector(normal_vector_);
 	portal->SetWall(this);
@@ -176,5 +177,38 @@ Direction StraightWall::GetDirection() const {
 
 qreal StraightWall::GetLen() const {
 	return len_;
+}
+
+#define PORTAL_OFFSET 2
+QVector2D StraightWall::GetPortalPoint(const QVector2D& point) const {
+	QVector2D res_point = point;
+	if (direction_ == Direction::Up || direction_ == Direction::Down) {
+		res_point.setY(GetPosition().y());
+
+		qreal first_bound = GetPosition().x() + 
+									PORTAL_FLOOR_LONG + PORTAL_OFFSET;
+		qreal second_bound = GetLine().p2().x() - 
+									PORTAL_FLOOR_LONG - PORTAL_OFFSET;
+		if (point.x() < first_bound) {
+			res_point.setX(first_bound);
+		} 
+		if (point.x() > second_bound) {
+			res_point.setX(second_bound);
+		}
+	} else {
+		res_point.setX(GetPosition().x());
+
+		qreal first_bound = GetPosition().y() + 
+									PORTAL_FLOOR_LONG + PORTAL_OFFSET;
+		qreal second_bound = GetLine().p2().y() - 
+									PORTAL_FLOOR_LONG - PORTAL_OFFSET;
+		if (point.y() < first_bound) {
+			res_point.setY(first_bound);
+		} 
+		if (point.y() > second_bound) {
+			res_point.setY(second_bound);
+		}
+	}
+	return res_point;
 }
 

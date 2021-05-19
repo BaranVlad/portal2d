@@ -85,5 +85,6 @@ bool Portal::IsInPair() {
 	} else if (GetName() == "portal_orange") {
 		return scene_->IsOnScene("portal_blue");
 	}
+	return false;
 }
 

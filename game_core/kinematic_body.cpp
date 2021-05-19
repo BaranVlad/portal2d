@@ -3,6 +3,7 @@
 
 #include "consts.h"
 #include "../game_objects/portal.h"
+#include <QDebug>
 
 QVector2D KinematicBody::gravity = QVector2D(0, GRAVITY);
 
@@ -36,11 +37,16 @@ bool KinematicBody::MoveAndCollide(QList<Area*>& areas)
 		} else {
 			is_on_floor_ = false;
 		}
+		qDebug() << (int)direction;
 		
 		if (direction == Direction::Down) {
 			if (velocity_.y() < 0) {
 				velocity_.setY(0);
 			}	
+		} else if (direction == Direction::Left ||
+					direction == Direction::Right) 
+		{
+			velocity_.setX(0);
 		}
 		
 		QVector2D suspend = velocity_ - offset;
