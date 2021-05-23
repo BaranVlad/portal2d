@@ -1,0 +1,250 @@
+[
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "is_active": true,
+                    "name": "Collider",
+                    "rect_height": 6,
+                    "rect_width": 100,
+                    "rect_x": 0,
+                    "rect_y": -3
+                }
+            ]
+        },
+        "class": "StraightWall",
+        "direction": 1,
+        "is_active": true,
+        "is_portable": true,
+        "len": 100,
+        "name": "drop_wall",
+        "normal_vector_x": 0,
+        "normal_vector_y": -1,
+        "x": 650,
+        "y": 500
+    },
+    {
+        "Areas": {
+            "Trigger": [
+                {
+                    "is_active": true,
+                    "name": "Trigger",
+                    "rect_height": 40,
+                    "rect_width": 40,
+                    "rect_x": 0,
+                    "rect_y": 0
+                }
+            ]
+        },
+        "class": "FinishArea",
+        "name": "finish",
+        "x": 130,
+        "y": 130
+    },
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "is_active": true,
+                    "name": "Collider",
+                    "rect_height": 6,
+                    "rect_width": 100,
+                    "rect_x": 0,
+                    "rect_y": -3
+                }
+            ]
+        },
+        "class": "StraightWall",
+        "direction": 1,
+        "is_active": true,
+        "is_portable": false,
+        "len": 100,
+        "name": "finish_floor",
+        "normal_vector_x": 0,
+        "normal_vector_y": -1,
+        "x": 100,
+        "y": 200
+    },
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "is_active": true,
+                    "name": "Collider",
+                    "rect_height": 100,
+                    "rect_width": 6,
+                    "rect_x": -3,
+                    "rect_y": 0
+                }
+            ]
+        },
+        "class": "StraightWall",
+        "direction": 2,
+        "is_active": true,
+        "is_portable": true,
+        "len": 100,
+        "name": "finish_wall",
+        "normal_vector_x": 1,
+        "normal_vector_y": 0,
+        "x": 200,
+        "y": 100
+    },
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "is_active": true,
+                    "name": "Collider",
+                    "rect_height": 100,
+                    "rect_width": 6,
+                    "rect_x": -3,
+                    "rect_y": 0
+                }
+            ]
+        },
+        "class": "StraightWall",
+        "direction": 3,
+        "is_active": true,
+        "is_portable": true,
+        "len": 100,
+        "name": "fly_box_wall",
+        "normal_vector_x": -1,
+        "normal_vector_y": 0,
+        "x": 700,
+        "y": -100
+    },
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "is_active": true,
+                    "name": "Collider",
+                    "rect_height": 6,
+                    "rect_width": 100,
+                    "rect_x": 0,
+                    "rect_y": -3
+                }
+            ]
+        },
+        "class": "StraightWall",
+        "direction": 1,
+        "is_active": true,
+        "is_portable": false,
+        "len": 100,
+        "name": "jump_wall",
+        "normal_vector_x": 0,
+        "normal_vector_y": -1,
+        "x": 550,
+        "y": 200
+    },
+    {
+        "Areas": {
+            "Target": [
+                {
+                    "is_active": true,
+                    "name": "Target",
+                    "rect_height": 42,
+                    "rect_width": 12,
+                    "rect_x": 0,
+                    "rect_y": 0
+                }
+            ]
+        },
+        "class": "PressButton",
+        "name": "open_floor",
+        "press_message": {
+            "dest": "",
+            "params": [
+            ],
+            "type": 2
+        },
+        "release_message": {
+            "dest": "",
+            "params": [
+            ],
+            "type": 2
+        },
+        "release_time": -1,
+        "x": 630,
+        "y": 155
+    },
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "is_active": true,
+                    "name": "Collider",
+                    "rect_height": 40,
+                    "rect_width": 20,
+                    "rect_x": 0,
+                    "rect_y": 0
+                }
+            ]
+        },
+        "class": "Player",
+        "name": "player",
+        "x": 350,
+        "y": 150
+    },
+    {
+        "class": "SpawnBox",
+        "name": "spawn_box",
+        "x": 350,
+        "y": 100
+    },
+    {
+        "Areas": {
+            "Target": [
+                {
+                    "is_active": true,
+                    "name": "Target",
+                    "rect_height": 42,
+                    "rect_width": 12,
+                    "rect_x": 0,
+                    "rect_y": 0
+                }
+            ]
+        },
+        "class": "PressButton",
+        "name": "spawn_press",
+        "press_message": {
+            "dest": "spawn_box",
+            "params": [
+            ],
+            "type": 1
+        },
+        "release_message": {
+            "dest": "",
+            "params": [
+            ],
+            "type": 2
+        },
+        "release_time": -1,
+        "x": 310,
+        "y": 155
+    },
+    {
+        "Areas": {
+            "Collider": [
+                {
+                    "is_active": true,
+                    "name": "Collider",
+                    "rect_height": 6,
+                    "rect_width": 100,
+                    "rect_x": 0,
+                    "rect_y": -3
+                }
+            ]
+        },
+        "class": "StraightWall",
+        "direction": 1,
+        "is_active": true,
+        "is_portable": false,
+        "len": 100,
+        "name": "start_floor",
+        "normal_vector_x": 0,
+        "normal_vector_y": -1,
+        "x": 300,
+        "y": 200
+    }
+]

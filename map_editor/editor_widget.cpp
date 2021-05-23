@@ -111,7 +111,6 @@ void EditorWidget::CommandUpdate() {
 		}
 	}
 
-
 	last_command = command;
 	command = "";
 }
@@ -415,6 +414,7 @@ void EditorWidget::ConnectMessage(const QStringList& list) {
 void EditorWidget::SetDebugInfo(const QStringList& list) {
 	if (list.size() < 2) {
 		error = "not enough args";
+		return;
 	}
 	scene_->SetDebugInfo(list[1].toInt());
 }

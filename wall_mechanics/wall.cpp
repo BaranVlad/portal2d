@@ -49,7 +49,7 @@ void Wall::FromJsonObject(const QJsonObject& js) {
 
 	normal_vector_.setX(js["normal_vector_x"].toDouble());
 	normal_vector_.setY(js["normal_vector_y"].toDouble());
-	setActive(js["is_active"].toBool());
+	SetActive(js["is_active"].toBool());
 	is_portable_ = js["is_portable"].toBool();
 }
 
